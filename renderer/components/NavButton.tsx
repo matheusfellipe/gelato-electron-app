@@ -1,21 +1,25 @@
 import { Group, Button } from '@mantine/core';
 import { IconPhoto, IconDownload, IconArrowRight } from '@tabler/icons-react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export const  ButtonNavigation = ()=> {
 
   const rotas = [
     {
-      label:'produto',
-      value:'/home'
+      label:'Produto',
+      value:'/home',
+      icon:<IconDownload size={14}/>
     },
     {
-      label:'sabor',
-      value:'/sabor'
+      label:'Sabor',
+      value:'/sabor',
+      icon:<IconDownload size={14}/>
     },
     {
-      label:'cliente',
-      value:'/cliente'
+      label:'Cliente',
+      value:'/cliente',
+      icon:<IconDownload size={14}/>
     },
   ]
 
@@ -24,20 +28,20 @@ export const  ButtonNavigation = ()=> {
   console.log(asPath);
   console.log(pathname);
   return (
-    <Group justify="center">
-      <Button leftSection={<IconPhoto size={14} />} >
-        Produto
-      </Button>
-
-      <Button leftSection={<IconDownload size={14} />}>Sabor</Button>
-
-      <Button
-       
-        leftSection={<IconPhoto size={14} />}
-        
-      >
-        Cliente
-      </Button>
+    <Group justify="center" >
+      {
+        rotas.map(({label,value,icon})=>(
+          <Link key={label}  href={value}>
+            <Button 
+            leftSection={icon}
+            variant={pathname==value?'filled':'default'}>
+             {label}  
+            </Button>
+            </Link>
+        )
+        )
+      }
+     
     </Group>
   );
 }

@@ -16,6 +16,7 @@
     "@mantine/modals": "^7.1.2",
     "@mantine/notifications": "^7.1.2",
     "@tabler/icons-react": "^2.38.0",
+    "chroma-js": "^2.4.2",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "knex": "^2.5.1"
@@ -25,6 +26,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.4",
+    "@types/chroma-js": "^2.4.1",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
     "electron": "^21.3.3",

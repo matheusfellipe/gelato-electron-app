@@ -1,12 +1,12 @@
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
 
-import { FC, ReactNode } from 'react';
+import { Children, FC, ReactNode } from 'react';
 import { IconClick } from '@tabler/icons-react';
 import { ButtonNavigation } from './NavButton';
 
 
-export const Layout:FC<{children: ReactNode}>=() => {
+export const Layout:FC<{children: ReactNode}>=({children}) => {
   const [opened, { toggle }] = useDisclosure();
 
   return (
@@ -17,12 +17,12 @@ export const Layout:FC<{children: ReactNode}>=() => {
     >
       <AppShell.Header>
         <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+         
           <ButtonNavigation/>
         </Group>
       </AppShell.Header>
      
-      <AppShell.Main>Main</AppShell.Main>
+      <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   );
 }

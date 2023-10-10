@@ -2,13 +2,11 @@ import React from 'react'
 import Head from 'next/head'
 import { Button } from '@mantine/core'
 import Link from 'next/link'
-import { Layout } from '../components/Layout'
+import { Layout } from '../../components/Layout'
 
 
-function Home() {
-  const [open, setOpen] = React.useState(false)
-  const handleClose = () => setOpen(false)
-  const handleClick = () => setOpen(true)
+const SaborPage= () => {
+  
 
   return (
     <React.Fragment>
@@ -17,11 +15,11 @@ function Home() {
       </Head>
     <Layout >
       <div>
-        Produto
+        Sabor
       </div>
     </Layout>
     </React.Fragment>
   )
 }
 
-export default Home
+export default SaborPage
