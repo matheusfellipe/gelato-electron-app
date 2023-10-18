@@ -1,0 +1,73 @@
+* {
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+
+  ::selection {
+    background-color: rgba(224, 224, 224, 0.701);
+    color: rgb(87, 82, 107);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.288);
+  }
+
+  /* custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 0.1rem;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #d0d1d390;
+    border-radius: 0.2rem;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #ccc;
+  }
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff;
+
+  color: #17161a;
+
+  min-width: 280px;
+}
+
+@media screen and (max-width: 1080px) {
+  html {
+    font-size: 93.75%; //
+  }
+}
+
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
+.mantine-TextInput-label,
+.mantine-PasswordInput-label,
+.mantine-InputWrapper-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.mantine-InputWrapper-error {
+  font-size: 1rem;
+}
+
+.mantine-Modal-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.mantine-Stepper-stepLabel {
+  font-weight: bold;
+}
