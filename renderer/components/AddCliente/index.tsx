@@ -3,7 +3,7 @@ import { Button, Input, PasswordInput, TextInput } from "@mantine/core";
 import { ChangeEvent, FC } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { IUsuario, IUsuarioType} from '../../services/cliente.service'
+import { IUsuario } from '../../services/cliente.service'
 import styles from "./styles.module.scss";
 
 import InputMask from "react-input-mask";
@@ -11,7 +11,7 @@ import InputMask from "react-input-mask";
 
 const schema = yup.object().shape({
   nome: yup.string().required("Campo obrigatório"),
-  
+
   telefone: yup
     .string()
     .required("Campo obrigatório")
@@ -29,7 +29,7 @@ const schema = yup.object().shape({
         });
       },
     }),
- endereco: yup.string().required("Campo obrigatório"),
+  endereco: yup.string().required("Campo obrigatório"),
   email: yup.string().required("Campo obrigatório"),
   senha: yup.string().required("Campo obrigatório"),
 });
@@ -56,7 +56,7 @@ export const AddUsuario: FC<AddUsuarioProps> = ({
     defaultValues: {
       nome: value?.nome ?? "",
       telefone: value?.telefone ?? "",
-     endereco: value?.endereco ?? "",
+      endereco: value?.endereco ?? "",
       email: value?.email ?? "",
       id_usuario: value?.id_usuario ?? undefined,
     },
@@ -73,7 +73,7 @@ export const AddUsuario: FC<AddUsuarioProps> = ({
         placeholder="Nome"
         error={errors.nome?.message}
       />
-      
+
 
       <Input.Wrapper label="Telefone" error={errors.telefone?.message}>
         <Input
@@ -93,7 +93,7 @@ export const AddUsuario: FC<AddUsuarioProps> = ({
         label="Endereço"
         placeholder="Digite o endereço do usuário"
         error={errors.endereco?.message}
-      
+
       />
 
       <TextInput
@@ -103,7 +103,7 @@ export const AddUsuario: FC<AddUsuarioProps> = ({
         error={errors.email?.message}
         maxLength={20}
       />
-        <PasswordInput
+      <PasswordInput
         {...register("senha")}
         label="Senha"
         placeholder="Digite a senha do Usuario"
@@ -117,7 +117,7 @@ export const AddUsuario: FC<AddUsuarioProps> = ({
           color="blue.6"
           variant="outline"
           onClick={onClose}
-        
+
         >
           Cancelar
         </Button>
@@ -125,7 +125,7 @@ export const AddUsuario: FC<AddUsuarioProps> = ({
           className={styles.Buttons}
           color="blue.6"
           type="submit"
-          
+
         >
           Gravar
         </Button>
