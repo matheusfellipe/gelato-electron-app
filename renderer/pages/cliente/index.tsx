@@ -4,9 +4,10 @@ import { Button } from '@mantine/core'
 import Link from 'next/link'
 import { Layout } from '../../components/Layout'
 import { SaborModal } from '../../components/SaborModal'
+import { AddUsuario } from '../../components/AddCliente'
 
 
-const SaborPage= () => {
+const ClientePage= () => {
   
 
   return (
@@ -16,11 +17,15 @@ const SaborPage= () => {
       </Head>
     <Layout >
       <div>
-      <SaborModal descricao={''} ativo={false}/>
+      <AddUsuario onSubmit={function (data: any): void {
+                      throw new Error('Function not implemented.')
+                  } } onClose={function (): void {
+                      throw new Error('Function not implemented.')
+                  } }/>
       </div>
     </Layout>
     </React.Fragment>
   )
 }
 
-export default SaborPage
+export default ClientePage

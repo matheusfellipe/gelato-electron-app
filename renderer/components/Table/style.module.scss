@@ -1,0 +1,67 @@
+.tableWrapper {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    border-radius: 0.7rem;
+  
+    .mainTable {
+      border-collapse: collapse;
+      width: 100%;
+      border-spacing: 0;
+  
+      thead {
+        th {
+          cursor: pointer;
+          transition: filter 0.3s ease;
+  
+          &:hover {
+            filter: brightness(0.95);
+          }
+  
+          .sortLabel {
+            display: flex;
+            gap: 0.2rem;
+  
+            div {
+              font-size: 0.8rem;
+              opacity: 0.3;
+              transition: all 0.1s ease;
+            }
+          }
+        }
+      }
+  
+      th,
+      td {
+        max-width: 400px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1rem;
+        line-height: 1.6rem;
+        text-align: left;
+        // border: 1px $primaryLight solid;
+      }
+  
+      td {
+        a {
+          font-size: 1rem;
+          text-transform: capitalize;
+          font-weight: bold;
+          // color: $secondaryMain;
+        }
+      }
+    }
+  }
+  
+  .TrMaster {
+    th {
+      &:first-child {
+        border-radius: 0.5rem 0 0 0;
+      }
+  
+      &:last-child {
+        border-radius: 0 0.5rem 0 0;
+      }
+    }
+  }
