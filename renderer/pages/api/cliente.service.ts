@@ -1,13 +1,16 @@
-import { knexInstance } from "../data";
+import prismaInstance from "../../data/prismaConfig";
+
+
+
 
 
 export interface IUsuario {
   nome: string;
   telefone: string;
-  endereco: string;
-  email: string;
-  senha:string;
-  id_usuario: number;
+  rua: string;
+  bairro: string;
+  cidade:string;
+ 
 }
 
 export interface IUsuarioType extends IUsuario {
@@ -15,15 +18,24 @@ export interface IUsuarioType extends IUsuario {
 }
 
 export const getUsuario = async () => {
-  const data  = await knexInstance.select();
+  const data  = await prismaInstance.cliente.findMany();
 
-  return data as IUsuarioType[];
+  return data;
 };
 
 export const postUsuario = async (usuario: IUsuario) => {
     
-  const data  = await knexInstance.insert(usuario);
+    
+  const data = await prismaInstance.cliente.create({
+    data:{
+      nome:usuario.nome,
+      bairro:usuario.bairro,
+      cidade:usuario.cidade,
+      rua:usuario.rua,
+      telefone:usuario.telefone,
 
+    }
+  })
   return data;
 };
 

@@ -18,9 +18,12 @@ export const SaborModal: FC<ISaborFormData> = () => {
     }
 
     return (
-        <form className={styles.containerModal} onSubmit={handleSubmit(onSubmit)}>
-            <TextInput label='Descrição' {...register('descricao')} placeholder="Descrição" />
-            <Switch checked={ativo} onChange={(event) => setValue('ativo', event.currentTarget.checked)} label="Está disponível" />
-            <Button type="submit">Salvar</Button>
-        </form>)
+        <div className={styles.container}>
+             <form className={styles.containerModal} onSubmit={handleSubmit(onSubmit)}>
+                <TextInput label='Descrição' {...register('descricao')} placeholder="Descrição" />
+                <Switch checked={ativo} onChange={(event) => setValue('ativo', event.currentTarget.checked)} label="Está disponível" />
+                <Button type="submit">Salvar</Button>
+            </form>
+        </div>
+       )
 }

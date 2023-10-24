@@ -1,14 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import { Button } from '@mantine/core'
 import Link from 'next/link'
 import { Layout } from '../../components/Layout'
 import { SaborModal } from '../../components/SaborModal'
-import { AddUsuario } from '../../components/AddCliente'
+import { AddCliente } from '../../components/AddCliente'
+import { GetServerSidePropsContext } from 'next'
+import { IUsuario, IUsuarioType, getUsuario, postUsuario } from '../api/cliente.service'
+import { closeAllModals, openModal } from '@mantine/modals'
+import { showNotification } from '@mantine/notifications'
 
+const ths = (
+  <tr>
+    <th>Nome</th>
+    <th>Telefone</th>
+    <th>Endereço</th>
+    <th>E-mail</th>
+    <th>Ações</th>
+  </tr>
+);
 
-const ClientePage= () => {
-  
+interface UsuarioProps {
+  allUsuario: IUsuarioType[];
+}
+
+const ClientePage= ({allUsuario}) => {
+  console.log("🚀 ~ file: index.tsx:28 ~ ClientePage ~ allUsuario:", allUsuario)
+  const [usuario, setUsuario] = useState<IUsuarioType[]>(allUsuario);
+
+  const addUsuario = async (data: IUsuario) => {
+    try {
+      await postUsuario(data);
+      showNotification({
+        title: 'Sucesso',
+        message: 'Usuário cadastrado com sucesso',
+      })
+      closeAllModals();
+      const response = await getUsuario();
+      setUsuario(response);
+    } catch (error) {
+      showNotification({
+        title: 'Erro',
+        message: 'Erro ao cadastrar usuário',
+      })
+      console.log(error);
+    }
+  };
+
+  const modalAdd = () =>
+openModal({
+  title: "Adicionar Usuário",
+  centered: true,
+  radius: "md",
+  children: <AddCliente onClose={closeAllModals} onSubmit={addUsuario} />,
+});
 
   return (
     <React.Fragment>
@@ -17,15 +62,33 @@ const ClientePage= () => {
       </Head>
     <Layout >
       <div>
-      <AddUsuario onSubmit={function (data: any): void {
-                      throw new Error('Function not implemented.')
-                  } } onClose={function (): void {
-                      throw new Error('Function not implemented.')
-                  } }/>
+      <Button onClick={modalAdd} color="blue" size="md">Adcionar Cliente</Button>
       </div>
     </Layout>
     </React.Fragment>
   )
+}
+
+
+
+
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  try {
+    const response = await getUsuario();
+
+    return {
+      props: {
+        allUsuario: response,
+      },
+    };
+  } catch {
+    return {
+      props: {
+        allUsuario: [],
+      },
+    };
+  }
 }
 
 export default ClientePage

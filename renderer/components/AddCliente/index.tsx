@@ -3,7 +3,7 @@ import { Button, Input, PasswordInput, TextInput } from "@mantine/core";
 import { ChangeEvent, FC } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { IUsuario } from '../../services/cliente.service'
+import { IUsuario } from '../../pages/api/cliente.service'
 import styles from "./styles.module.scss";
 
 import InputMask from "react-input-mask";
@@ -29,9 +29,10 @@ const schema = yup.object().shape({
         });
       },
     }),
-  endereco: yup.string().required("Campo obrigatório"),
-  email: yup.string().required("Campo obrigatório"),
-  senha: yup.string().required("Campo obrigatório"),
+
+  rua: yup.string().required("Campo obrigatório"),
+  bairro: yup.string().required("Campo obrigatório"),
+  cidade: yup.string().required("Campo obrigatório"),
 });
 
 interface AddUsuarioProps {
@@ -40,7 +41,7 @@ interface AddUsuarioProps {
   value?: IUsuario;
 }
 
-export const AddUsuario: FC<AddUsuarioProps> = ({
+export const AddCliente: FC<AddUsuarioProps> = ({
   onClose,
   onSubmit,
   value,
@@ -56,10 +57,12 @@ export const AddUsuario: FC<AddUsuarioProps> = ({
     defaultValues: {
       nome: value?.nome ?? "",
       telefone: value?.telefone ?? "",
-      endereco: value?.endereco ?? "",
-      email: value?.email ?? "",
-      id_usuario: value?.id_usuario ?? undefined,
+      rua: value?.rua ?? "",
+      bairro: value?.bairro ?? "",
+      cidade: value?.cidade ?? "",
+     
     },
+    
   });
 
 
@@ -89,25 +92,25 @@ export const AddUsuario: FC<AddUsuarioProps> = ({
         />
       </Input.Wrapper>
       <TextInput
-        {...register("endereco")}
-        label="Endereço"
-        placeholder="Digite o endereço do usuário"
-        error={errors.endereco?.message}
+        {...register("rua")}
+        label="Rua"
+        placeholder="Digite a rua do cliente"
+        error={errors.rua?.message}
 
       />
 
       <TextInput
-        {...register("email")}
-        label="Email"
-        placeholder="Digite a email do usuário"
-        error={errors.email?.message}
+        {...register("bairro")}
+        label="Bairro"
+        placeholder="Digite a bairro do cliente"
+        error={errors.bairro?.message}
         maxLength={20}
       />
-      <PasswordInput
-        {...register("senha")}
-        label="Senha"
-        placeholder="Digite a senha do Usuario"
-        error={errors.senha?.message}
+       <TextInput
+        {...register("cidade")}
+        label="Cidade"
+        placeholder="Digite a cidade do cliente"
+        error={errors.cidade?.message}
         maxLength={20}
       />
 

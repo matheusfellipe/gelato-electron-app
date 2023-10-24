@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./data.db"
+}
+model Carrinho {
+  id        Int      @id @default(autoincrement())
+  dataVenda DateTime
+  valorTotal Float
+  pago      Boolean
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+  clienteId Int
+  itens     CarrinhoItem[]
+}
+
+model CarrinhoItem {
+  id          Int      @id @default(autoincrement())
+  quantidade  Int
+  valorTotal  Float
+  carrinho    Carrinho @relation(fields: [carrinhoId], references: [id])
+  carrinhoId  Int
+  produto     Produto  @relation(fields: [produtoId], references: [id])
+  produtoId   Int
+}
+
+model Cliente {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  telefone String
+  cidade   String
+  bairro   String
+  rua      String
+  carrinho Carrinho[]
+}
+
+model Sabor {
+  id          Int      @id @default(autoincrement())
+  descricao   String
+  ativo       Boolean
+  produto Produto[]
+}
+
+model Produto {
+  id          Int      @id @default(autoincrement())
+  quantidade  Int
+  volume      Int
+  preco       Float
+  sabor       Sabor    @relation(fields: [saborId], references: [id])
+  saborId     Int
+  itens     CarrinhoItem[]
+}
