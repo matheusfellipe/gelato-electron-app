@@ -6,7 +6,7 @@ import { Layout } from '../../components/Layout'
 import { SaborModal } from '../../components/SaborModal'
 import { AddCliente } from '../../components/AddCliente'
 import { GetServerSidePropsContext } from 'next'
-import { IUsuario, IUsuarioType, getUsuario, postUsuario } from '../api/cliente.service'
+import { IUsuario, IUsuarioType, getUsuario, postUsuario } from '../../services/cliente.service'
 import { closeAllModals, openModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 
@@ -20,30 +20,29 @@ const ths = (
   </tr>
 );
 
-interface UsuarioProps {
-  allUsuario: IUsuarioType[];
-}
 
 const ClientePage= ({allUsuario}) => {
   console.log("🚀 ~ file: index.tsx:28 ~ ClientePage ~ allUsuario:", allUsuario)
   const [usuario, setUsuario] = useState<IUsuarioType[]>(allUsuario);
 
   const addUsuario = async (data: IUsuario) => {
+    console.log("🚀 ~ file: index.tsx:32 ~ addUsuario ~ data:", data)
     try {
-      await postUsuario(data);
+      // await postUsuario(data);
       showNotification({
         title: 'Sucesso',
         message: 'Usuário cadastrado com sucesso',
       })
       closeAllModals();
-      const response = await getUsuario();
-      setUsuario(response);
+      // const response = await getUsuario();
+      // setUsuario(response);
     } catch (error) {
-      showNotification({
-        title: 'Erro',
-        message: 'Erro ao cadastrar usuário',
-      })
-      console.log(error);
+      // showNotification({
+      //   title: 'Erro',
+      //   message: 'Erro ao cadastrar usuário',
+      // })
+      
+      console.log("🚀 ~ file: index.tsx:40 ~ addUsuario ~ error:", error)
     }
   };
 

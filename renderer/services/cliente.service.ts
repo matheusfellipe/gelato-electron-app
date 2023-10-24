@@ -1,4 +1,5 @@
-import prismaInstance from "../../data/prismaConfig";
+import prisma from "../data/db";
+
 
 
 
@@ -18,15 +19,16 @@ export interface IUsuarioType extends IUsuario {
 }
 
 export const getUsuario = async () => {
-  const data  = await prismaInstance.cliente.findMany();
+  const data  = await prisma.cliente.findMany();
 
   return data;
 };
 
 export const postUsuario = async (usuario: IUsuario) => {
+    console.log("🚀 ~ file: cliente.service.ts:28 ~ postUsuario ~ usuario:", usuario)
     
     
-  const data = await prismaInstance.cliente.create({
+  const data = await prisma.cliente.create({
     data:{
       nome:usuario.nome,
       bairro:usuario.bairro,
