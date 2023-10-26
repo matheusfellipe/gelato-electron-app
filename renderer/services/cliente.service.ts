@@ -21,7 +21,7 @@ export interface IUsuarioType extends IUsuario {
 export const getUsuario = async () => {
   const data  = await prisma.cliente.findMany();
 
-  return data;
+  return data as unknown as IUsuarioType[];
 };
 
 export const postUsuario = async (usuario: IUsuario) => {

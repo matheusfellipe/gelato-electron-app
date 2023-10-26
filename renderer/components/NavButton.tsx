@@ -10,6 +10,11 @@ const rotas = [
     icon: <IconHome size={14} />,
   },
   {
+    label: "Venda",
+    value: "/venda",
+    icon: <IconHome size={14} />,
+  },
+  {
     label: "Sabor",
     value: "/sabor",
     icon: <IconIceCream size={14} />,

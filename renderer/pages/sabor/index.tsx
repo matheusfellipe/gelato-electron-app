@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { Button } from '@mantine/core'
 import Link from 'next/link'
 import { Layout } from '../../components/Layout'
-import { SaborModal } from '../../components/SaborModal'
+import { SaborModal } from '../../components/AddSabor'
 import { CustomTable } from '../../components/Table/Table'
 import styles from "./styles.module.scss";
 

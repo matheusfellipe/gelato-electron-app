@@ -3,10 +3,11 @@ import { Button, Input, PasswordInput, TextInput } from "@mantine/core";
 import { ChangeEvent, FC } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { IUsuario } from '../../services/cliente.service'
+
 import styles from "./styles.module.scss";
 
 import InputMask from "react-input-mask";
+import { IUsuario } from "../../services/cliente.service";
 
 
 const schema = yup.object().shape({

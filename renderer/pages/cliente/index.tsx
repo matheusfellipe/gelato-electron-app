@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { Button } from '@mantine/core'
 import Link from 'next/link'
 import { Layout } from '../../components/Layout'
-import { SaborModal } from '../../components/SaborModal'
+import { SaborModal } from '../../components/AddSabor'
 import { AddCliente } from '../../components/AddCliente'
 import { GetServerSidePropsContext } from 'next'
 import { IUsuario, IUsuarioType, getUsuario, postUsuario } from '../../services/cliente.service'
@@ -28,21 +28,21 @@ const ClientePage= ({allUsuario}) => {
   const addUsuario = async (data: IUsuario) => {
     console.log("🚀 ~ file: index.tsx:32 ~ addUsuario ~ data:", data)
     try {
-      // await postUsuario(data);
+      await postUsuario(data);
       showNotification({
         title: 'Sucesso',
         message: 'Usuário cadastrado com sucesso',
       })
       closeAllModals();
-      // const response = await getUsuario();
-      // setUsuario(response);
+      const response = await getUsuario();
+      setUsuario(response);
     } catch (error) {
-      // showNotification({
-      //   title: 'Erro',
-      //   message: 'Erro ao cadastrar usuário',
-      // })
-      
+      showNotification({
+        title: 'Erro',
+        message: 'Erro ao cadastrar usuário',
+      })
       console.log("🚀 ~ file: index.tsx:40 ~ addUsuario ~ error:", error)
+      
     }
   };
 
