@@ -5,6 +5,11 @@ import { useRouter } from "next/router";
 
 const rotas = [
   {
+    label: "Dashboard",
+    value: "/dashboard",
+    icon: <IconHome size={14} />,
+  },
+  {
     label: "Produto",
     value: "/home",
     icon: <IconHome size={14} />,
