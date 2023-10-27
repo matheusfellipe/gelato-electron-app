@@ -12,18 +12,18 @@ import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { FC, useState } from "react";
-import { AddProduto } from "../components/AddProduto";
+import { AddProduto } from "../../components/AddProduto";
 import { showNotification } from '@mantine/notifications';
 import {
 
   ICremosinho,
   ICremosinhoType,
  
-} from "../services/produto.service"
-import { convertMoney } from "../utils/string";
+} from "../../services/produto.service"
+import { convertMoney } from "../../utils/string";
 import styles from "./styles.module.scss";
-import { onlyNumbers } from "../utils/number";
-import { Layout } from "../components/Layout";
+import { onlyNumbers } from "../../utils/number";
+import { Layout } from "../../components/Layout";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 
 const ths = (
