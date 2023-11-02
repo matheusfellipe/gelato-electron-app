@@ -1,4 +1,4 @@
-import prisma from "../data/db";
+
 
 
 
@@ -18,27 +18,40 @@ export interface IUsuarioType extends IUsuario {
   id_usuario: number;
 }
 
-export const getUsuario = async () => {
-  const data  = await prisma.cliente.findMany();
+// export const getUsuario = async () => {
+//   const data  = await prisma.cliente.findMany();
 
-  return data as unknown as IUsuarioType[];
-};
+//   return data as unknown as IUsuarioType[];
+// };
 
 export const postUsuario = async (usuario: IUsuario) => {
     console.log("🚀 ~ file: cliente.service.ts:28 ~ postUsuario ~ usuario:", usuario)
     
     
-  const data = await prisma.cliente.create({
-    data:{
+  const data = await {
+    
       nome:usuario.nome,
       bairro:usuario.bairro,
       cidade:usuario.cidade,
       rua:usuario.rua,
       telefone:usuario.telefone,
 
-    }
-  })
-  return data;
+    
+  }
+  const response = await fetch("/api/cliente", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+  return response.json();
+};
+
+export const postHello = async (usuario: IUsuario) => {
+  console.log("🚀 ~ file: cliente.service.ts:28 ~ postUsuario ~ usuario:", usuario)
+  
+
+  const response = await fetch("/api/hello");
+    
+      return response;
 };
 
 // export const putUsuario = async (usuario: IUsuarioType) => {
