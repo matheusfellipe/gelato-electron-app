@@ -42,6 +42,8 @@ export const postUsuario = async (usuario: IUsuario) => {
     method: "POST",
     body: JSON.stringify(data),
   });
+ 
+
   return response.json();
 };
 
