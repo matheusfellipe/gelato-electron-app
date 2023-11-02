@@ -6,7 +6,7 @@ import { Layout } from '../../components/Layout'
 import { SaborModal } from '../../components/AddSabor'
 import { AddCliente } from '../../components/AddCliente'
 import { GetServerSidePropsContext } from 'next'
-import { IUsuario, IUsuarioType, getUsuario, postUsuario } from '../../services/cliente.service'
+import { IUsuario, IUsuarioType,  postUsuario } from '../../services/cliente.service'
 import { closeAllModals, openModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 
@@ -34,8 +34,8 @@ const ClientePage= ({allUsuario}) => {
         message: 'Usuário cadastrado com sucesso',
       })
       closeAllModals();
-      const response = await getUsuario();
-      setUsuario(response);
+      // const response = await getUsuario();
+      // setUsuario(response);
     } catch (error) {
       showNotification({
         title: 'Erro',
