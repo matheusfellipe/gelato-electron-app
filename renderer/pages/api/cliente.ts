@@ -1,7 +1,7 @@
 import prisma from "../../data/db";
 
 export default function handler(req, res) {
-  const { nome, bairro, cidade, rua, telefone } = req.body;
+  const { nome, bairro, cidade, rua, telefone } = JSON.parse(req.body);
   console.log("🚀 ~ file: cliente.ts:5 ~ handler ~ req.body:", req.body)
  
   prisma.cliente.create({
