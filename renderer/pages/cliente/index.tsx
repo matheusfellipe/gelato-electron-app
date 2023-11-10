@@ -34,8 +34,8 @@ const ClientePage= ({allUsuario}) => {
   const fetchUsuario = async () => {
     try {
       const response = await getUsuarios();
-      console.log("🚀 ~ file: index.tsx:37 ~ fetchUsuario ~ response:", response.data)
-      setUsuario(response.data);
+      console.log("🚀 ~ file: index.tsx:37 ~ fetchUsuario ~ response:", response)
+      setUsuario(response);
     } catch (error) {
       console.error("Erro ao obter produtos:", error);
     }

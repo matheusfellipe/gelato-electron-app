@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 export interface IUsuario {
   nome: string;
   telefone: string;
@@ -30,7 +23,7 @@ export const getUsuarios = async () => {
   }
   
   console.log("🚀 ~ file: cliente.service.ts:27 ~ getUsuarios ~ response:", response)
-  const data = await response.json();
+  const {data} = await response.json();
  
   return data as IUsuarioType[];
 };
@@ -69,7 +62,7 @@ export const putUsuario = async (usuario: IUsuarioType) => {
     telefone: usuario.telefone,
   };
 
-  const response = await fetch(`/api/cliente/${usuario.id_usuario}`, {
+  const response = await fetch(`/api/cliente?id=${usuario.id_usuario}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
