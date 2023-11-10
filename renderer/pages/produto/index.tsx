@@ -11,17 +11,18 @@ import { IconEdit, IconTrash } from "@tabler/icons";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { AddProduto } from "../../components/AddProduto";
 import { showNotification } from '@mantine/notifications';
 import {
 
   ICremosinho,
   ICremosinhoType,
+  getAllProdutos,
  
 } from "../../services/produto.service";
 import { convertMoney } from "../../utils/string";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { onlyNumbers } from "../../utils/number";
 
 const ths = (
@@ -39,6 +40,19 @@ interface ProductProps {
 const Product: FC<ProductProps> = ({ allCremosinho }) => {
   const [cremosinho, setCremosinho] =
     useState<ICremosinhoType[]>(allCremosinho);
+
+    const fetchProdutos = async () => {
+      try {
+        const response = await getAllProdutos();
+        setCremosinho(response);
+      } catch (error) {
+        console.error("Erro ao obter produtos:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchProdutos();
+    }, []);
 
   const rows = cremosinho.map((element) => (
     <tr key={element.id_cremosinho}>
@@ -169,22 +183,23 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
   );
 };
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  try {
-    // const response = await getCremosinho();
+// export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+//   try {
+//     const response = await getAllProdutos();
+//     console.log("🚀 ~ file: index.tsx:176 ~ getServerSideProps ~ entrou aqui:")
 
-    return {
-      props: {
-        // allCremosinho: response,
-      },
-    };
-  } catch {
-    return {
-      props: {
-        allCremosinho: [],
-      },
-    };
-  }
-}
+//     return {
+//       props: {
+//         allCremosinho: response,
+//       },
+//     };
+//   } catch {
+//     return {
+//       props: {
+//         allCremosinho: [],
+//       },
+//     };
+//   }
+// }
 
 export default Product;

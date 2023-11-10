@@ -18,6 +18,7 @@ import {
 
   ICremosinho,
   ICremosinhoType,
+  getAllProdutos,
  
 } from "../../services/produto.service"
 import { convertMoney } from "../../utils/string";
@@ -173,25 +174,12 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   try {
-    // const response = await getCremosinho();
+    const response = await getAllProdutos();
+    console.log("🚀 ~ file: index.tsx:176 ~ getServerSideProps ~ entrou aqui:")
 
     return {
       props: {
-        allCremosinho:  [
-          {
-            id_cremosinho: 1,
-            sabor: 'Morango',
-            vlr_unitario: 2.5,
-            qtd_estoque: 10,
-          },
-          {
-            id_cremosinho: 2,
-            sabor: 'Chocolate',
-            vlr_unitario: 3,
-            qtd_estoque: 15,
-          },
-          // Adicione mais objetos conforme necessário
-        ]
+        allCremosinho: response,
       },
     };
   } catch {

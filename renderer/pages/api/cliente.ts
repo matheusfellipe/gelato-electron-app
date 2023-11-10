@@ -54,7 +54,59 @@ export default function handler(req, res) {
           res.status(500).json({ error: "Internal Server Error" });
         });
     }
-  } else {
+  } else if (req.method === 'DELETE') {
+    if (req.query.id) {
+      const clienteId = parseInt(req.query.id);
+
+      prisma.cliente
+        .delete({
+          where: {
+            id: clienteId,
+          },
+        })
+        .then(() => {
+          res.status(200).json({ message: "Cliente excluído com sucesso" });
+        })
+        .catch((error) => {
+          console.error("Erro ao excluir cliente:", error);
+          res.status(500).json({ error: "Internal Server Error" });
+        });
+    } else {
+      res.status(400).json({ error: "ID do cliente não fornecido para exclusão" });
+    }
+    
+  } 
+  else if (req.method === 'PUT') {
+    if (req.query.id) {
+      const clienteId = parseInt(req.query.id);
+
+      const { nome, bairro, cidade, rua, telefone } = JSON.parse(req.body);
+
+      prisma.cliente
+        .update({
+          where: {
+            id: clienteId,
+          },
+          data: {
+            nome: nome,
+            bairro: bairro,
+            cidade: cidade,
+            rua: rua,
+            telefone: telefone,
+          },
+        })
+        .then((updatedCliente) => {
+          res.status(200).json({ message: "Cliente atualizado com sucesso", data: updatedCliente });
+        })
+        .catch((error) => {
+          console.error("Erro ao atualizar cliente:", error);
+          res.status(500).json({ error: "Internal Server Error" });
+        });
+    } else {
+      res.status(400).json({ error: "ID do cliente não fornecido para atualização" });
+    }
+  }
+  else {
     res.status(405).end(); // Método não permitido
   }
 }

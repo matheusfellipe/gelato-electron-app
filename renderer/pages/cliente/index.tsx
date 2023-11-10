@@ -1,29 +1,71 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import { Button } from '@mantine/core'
+import { ActionIcon, Button, Table, Text } from '@mantine/core'
 import Link from 'next/link'
 import { Layout } from '../../components/Layout'
 import { SaborModal } from '../../components/AddSabor'
 import { AddCliente } from '../../components/AddCliente'
 import { GetServerSidePropsContext } from 'next'
-import { IUsuario, IUsuarioType,  postUsuario } from '../../services/cliente.service'
-import { closeAllModals, openModal } from '@mantine/modals'
+import { IUsuario, IUsuarioType,  deleteUsuario,  getUsuarios,  postUsuario, putUsuario } from '../../services/cliente.service'
+import { closeAllModals, openConfirmModal, openModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
+import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { formattedCpf } from '../../utils/formatter'
+import styles from "./styles.module.scss";
+
 
 const ths = (
   <tr>
     <th>Nome</th>
     <th>Telefone</th>
-    <th>Endereço</th>
-    <th>E-mail</th>
-    <th>Ações</th>
+    <th>Cidade</th>
+    <th>Bairro</th>
+    <th>Rua</th>
   </tr>
 );
 
 
+
+
 const ClientePage= ({allUsuario}) => {
-  console.log("🚀 ~ file: index.tsx:28 ~ ClientePage ~ allUsuario:", allUsuario)
+
   const [usuario, setUsuario] = useState<IUsuarioType[]>(allUsuario);
+
+  const fetchUsuario = async () => {
+    try {
+      const response = await getUsuarios();
+      console.log("🚀 ~ file: index.tsx:37 ~ fetchUsuario ~ response:", response.data)
+      setUsuario(response.data);
+    } catch (error) {
+      console.error("Erro ao obter produtos:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsuario();
+  }, []);
+
+  const rows = usuario?.map((element) => (
+    <tr key={element.id_usuario}>
+      <td>{element.nome}</td>
+      <td>{element.telefone}</td>
+      <td>{element.cidade}</td>
+      <td>{element.bairro}</td>
+      <td>{element.rua}</td>
+      <td className={styles.tableFlex}>
+        <ActionIcon onClick={() => modalUpdate(element)} size={20} color="blue">
+          <IconEdit />
+        </ActionIcon>
+        <ActionIcon
+          onClick={() => openDeleteModal(element.id_usuario, element.nome)}
+          size={20}
+          color="red"
+        >
+          <IconTrash />
+        </ActionIcon>
+      </td>
+    </tr>
+  ));
 
   const addUsuario = async (data: IUsuario) => {
     console.log("🚀 ~ file: index.tsx:32 ~ addUsuario ~ data:", data)
@@ -54,6 +96,58 @@ openModal({
   children: <AddCliente onClose={closeAllModals} onSubmit={addUsuario} />,
 });
 
+const updateDeliveryMan = async (data: IUsuarioType) => {
+  try {
+    await putUsuario({
+      ...data,
+     
+    });
+    closeAllModals();
+    const response = await getUsuarios();
+    setUsuario(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const modalUpdate = (data: IUsuarioType) => {
+  console.log(data);
+  openModal({
+    title: "Editar Entregador",
+    centered: true,
+    radius: "md",
+    children: (
+      <AddCliente
+        onClose={closeAllModals}
+        onSubmit={updateDeliveryMan}
+        value={data}
+      />
+    ),
+  });
+};
+
+const deleteDeliveryMan = async (id: number) => {
+  try {
+    await deleteUsuario(id);
+    const response = await getUsuarios();
+    closeAllModals();
+    // setCremosinho(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const openDeleteModal = (id: number, name: string) =>
+openConfirmModal({
+  title: "Excluir Entregador",
+  centered: true,
+  children: <Text size="sm">Deletar o entregador "{name}" ?</Text>,
+  labels: { confirm: "Excluir", cancel: "Cancelar" },
+  confirmProps: { color: "red" },
+  onCancel: () => console.log("cancel"),
+  onConfirm: () => deleteDeliveryMan(id),
+});
+
   return (
     <React.Fragment>
       <Head>
@@ -62,6 +156,10 @@ openModal({
     <Layout >
       <div>
       <Button onClick={modalAdd} color="blue" size="md">Adcionar Cliente</Button>
+      <Table striped highlightOnHover  withColumnBorders>
+            <thead>{ths}</thead>
+            <tbody>{rows}</tbody>
+          </Table>
       </div>
     </Layout>
     </React.Fragment>
@@ -72,22 +170,23 @@ openModal({
 
 
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  try {
-    const response = await getUsuario();
-
-    return {
-      props: {
-        allUsuario: response,
-      },
-    };
-  } catch {
-    return {
-      props: {
-        allUsuario: [],
-      },
-    };
-  }
-}
+// export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+//   try {
+//     const response = await getUsuarios();
+  
+//     console.log("🚀 ~ file: index.tsx:163 ~ getServerSideProps ~ entrou aqui:")
+//     return {
+//       props: {
+//         allUsuarios: response,
+//       },
+//     };
+//   } catch {
+//     return {
+//       props: {
+//         allUsuarios: [],
+//       },
+//     };
+//   }
+// }
 
 export default ClientePage

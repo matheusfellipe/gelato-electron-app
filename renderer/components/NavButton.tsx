@@ -9,14 +9,15 @@ const rotas = [
     value: "/dashboard",
     icon: <IconHome size={14} />,
   },
-  {
-    label: "Produto",
-    value: "/home",
-    icon: <IconHome size={14} />,
-  },
+
   {
     label: "Venda",
     value: "/venda",
+    icon: <IconHome size={14} />,
+  },
+  {
+    label: "Produto",
+    value: "/home",
     icon: <IconHome size={14} />,
   },
   {
