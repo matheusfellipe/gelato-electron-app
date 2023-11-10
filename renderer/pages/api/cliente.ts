@@ -14,6 +14,16 @@ export default function handler(req, res) {
             rua: rua,
             telefone: telefone,
           },
+        })  .then((cliente) => {
+          if (cliente) {
+            res.status(200).json({ data: cliente });
+          } else {
+            res.status(404).json({ error: "Cliente não encontrado" });
+          }
+        })
+        .catch((error) => {
+          console.error("Erro ao obter cliente por ID:", error);
+          res.status(500).json({ error: "Internal Server Error" });
         });
   
         res.status(200).json({ message: "Cliente criado com sucesso", data: createdCliente });
@@ -31,6 +41,16 @@ export default function handler(req, res) {
             rua: rua,
             telefone: telefone,
           },
+        })  .then((cliente) => {
+          if (cliente) {
+            res.status(200).json({ data: cliente });
+          } else {
+            res.status(404).json({ error: "Cliente não encontrado" });
+          }
+        })
+        .catch((error) => {
+          console.error("Erro ao obter cliente por ID:", error);
+          res.status(500).json({ error: "Internal Server Error" });
         });
   
         res.status(200).json({ message: "Cliente atualizado com sucesso", data: updatedCliente });
