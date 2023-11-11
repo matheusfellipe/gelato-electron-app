@@ -46,7 +46,7 @@ const ClientePage= ({allUsuario}) => {
   }, []);
 
   const rows = usuario?.map((element) => (
-    <tr key={element.id_usuario}>
+    <tr key={element.id}>
       <td>{element.nome}</td>
       <td>{element.telefone}</td>
       <td>{element.cidade}</td>
@@ -57,7 +57,7 @@ const ClientePage= ({allUsuario}) => {
           <IconEdit />
         </ActionIcon>
         <ActionIcon
-          onClick={() => openDeleteModal(element.id_usuario, element.nome)}
+          onClick={() => openDeleteModal(element.id, element.nome)}
           size={20}
           color="red"
         >
@@ -97,6 +97,7 @@ openModal({
 });
 
 const updateDeliveryMan = async (data: IUsuarioType) => {
+  console.log("🚀 ~ file: index.tsx:100 ~ updateDeliveryMan ~ data:", data)
   try {
     await putUsuario({
       ...data,
@@ -111,7 +112,8 @@ const updateDeliveryMan = async (data: IUsuarioType) => {
 };
 
 const modalUpdate = (data: IUsuarioType) => {
-  console.log(data);
+  console.log("🚀 ~ file: index.tsx:115 ~ modalUpdate ~ data:", data)
+  
   openModal({
     title: "Editar Entregador",
     centered: true,
@@ -127,6 +129,7 @@ const modalUpdate = (data: IUsuarioType) => {
 };
 
 const deleteDeliveryMan = async (id: number) => {
+  console.log("🚀 ~ file: index.tsx:130 ~ deleteDeliveryMan ~ id:", id)
   try {
     await deleteUsuario(id);
     const response = await getUsuarios();
@@ -138,6 +141,7 @@ const deleteDeliveryMan = async (id: number) => {
 };
 
 const openDeleteModal = (id: number, name: string) =>
+
 openConfirmModal({
   title: "Excluir Entregador",
   centered: true,

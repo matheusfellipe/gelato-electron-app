@@ -8,7 +8,7 @@ export interface IUsuario {
 }
 
 export interface IUsuarioType extends IUsuario {
-  id_usuario: number;
+  id: number;
 }
 
 export const getUsuarios = async () => {
@@ -54,7 +54,9 @@ export const postUsuario = async (usuario: IUsuario) => {
 
 
 export const putUsuario = async (usuario: IUsuarioType) => {
+  console.log("🚀 ~ file: cliente.service.ts:57 ~ putUsuario ~ usuario:", usuario)
   const data = {
+    id:usuario.id,
     nome: usuario.nome,
     bairro: usuario.bairro,
     cidade: usuario.cidade,
@@ -62,8 +64,8 @@ export const putUsuario = async (usuario: IUsuarioType) => {
     telefone: usuario.telefone,
   };
 
-  const response = await fetch(`/api/cliente?id=${usuario.id_usuario}`, {
-    method: "PUT",
+  const response = await fetch(`/api/cliente`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
@@ -75,7 +77,8 @@ export const putUsuario = async (usuario: IUsuarioType) => {
 
 
 export const deleteUsuario = async (id: number) => {
-  const response = await fetch(`/api/cliente/${id}`, {
+  console.log("🚀 ~ file: cliente.service.ts:79 ~ deleteUsuario ~ id:", id)
+  const response = await fetch(`/api/cliente?id=${id}`, {
     method: "DELETE",
   });
 

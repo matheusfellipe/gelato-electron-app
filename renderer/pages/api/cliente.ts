@@ -3,9 +3,9 @@ import prisma from "../../data/db";
 export default function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      const { id, nome, bairro, cidade, rua, telefone } = req.body;
+      const { id_usuarios, nome, bairro, cidade, rua, telefone } = req.body;
   
-      if (!id) {
+      if (!id_usuarios) {
         const createdCliente =  prisma.cliente.create({
           data: {
             nome: nome,
@@ -28,7 +28,7 @@ export default function handler(req, res) {
   
         res.status(200).json({ message: "Cliente criado com sucesso", data: createdCliente });
       } else {
-        const clienteId = parseInt(id);
+        const clienteId = parseInt(id_usuarios);
   
         const updatedCliente =  prisma.cliente.update({
           where: {
@@ -117,5 +117,21 @@ export default function handler(req, res) {
   } 
   else {
     res.status(405).end(); // Método não permitido
+  }
+}
+
+
+async function deleteCliente(clienteId: number) {
+  try {
+    await prisma.cliente.delete({
+      where: {
+        id: clienteId,
+      },
+    });
+
+    return { success: true, message: "Cliente excluído com sucesso" };
+  } catch (error) {
+    console.error("Erro ao excluir cliente:", error);
+    return { success: false, error: "Internal Server Error, Cliente está relacionado a algum carrinho" };
   }
 }
