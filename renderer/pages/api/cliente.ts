@@ -5,7 +5,7 @@ export default function handler(req, res) {
     try {
       const { id, nome, bairro, cidade, rua, telefone } = req.body;
   
-      if (!id) {
+      
         const createdCliente =  prisma.cliente.create({
           data: {
             nome: nome,
@@ -27,34 +27,12 @@ export default function handler(req, res) {
         });
   
         res.status(200).json({ message: "Cliente criado com sucesso", data: createdCliente });
-      } else {
-        const clienteId = parseInt(id);
+    
+      
   
-        const updatedCliente =  prisma.cliente.update({
-          where: {
-            id: clienteId,
-          },
-          data: {
-            nome: nome,
-            bairro: bairro,
-            cidade: cidade,
-            rua: rua,
-            telefone: telefone,
-          },
-        })  .then((cliente) => {
-          if (cliente) {
-            res.status(200).json({ data: cliente });
-          } else {
-            res.status(404).json({ error: "Cliente não encontrado" });
-          }
-        })
-        .catch((error) => {
-          console.error("Erro ao obter cliente por ID:", error);
-          res.status(500).json({ error: "Internal Server Error" });
-        });
-  
-        res.status(200).json({ message: "Cliente atualizado com sucesso", data: updatedCliente });
-      }
+       
+        
+      
     } catch (error) {
       console.error("Erro ao criar ou atualizar cliente:", error);
       res.status(500).json({ error: "Internal Server Error" });
@@ -115,6 +93,43 @@ export default function handler(req, res) {
     }
     
   } 
+  else if (req.method === 'PUT') {
+    try {
+      if (req.query.id) {
+        const clienteId = parseInt(req.query.id);
+        const { nome, bairro, cidade, rua, telefone } = req.body;
+
+        const updatedCliente = prisma.cliente.update({
+          where: {
+            id: clienteId,
+          },
+          data: {
+            nome: nome,
+            bairro: bairro,
+            cidade: cidade,
+            rua: rua,
+            telefone: telefone,
+          },
+        })
+        .then((cliente) => {
+          if (cliente) {
+            res.status(200).json({ message: "Cliente atualizado com sucesso", data: cliente });
+          } else {
+            res.status(404).json({ error: "Cliente não encontrado" });
+          }
+        })
+        .catch((error) => {
+          console.error("Erro ao atualizar cliente:", error);
+          res.status(500).json({ error: "Internal Server Error" });
+        });
+      } else {
+        res.status(400).json({ error: "ID do cliente não fornecido para atualização" });
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar cliente:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
   else {
     res.status(405).end(); // Método não permitido
   }

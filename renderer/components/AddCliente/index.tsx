@@ -7,10 +7,11 @@ import * as yup from "yup";
 import styles from "./styles.module.scss";
 
 import InputMask from "react-input-mask";
-import { IUsuario } from "../../services/cliente.service";
+import { IUsuario, IUsuarioType } from "../../services/cliente.service";
 
 
 const schema = yup.object().shape({
+
   nome: yup.string().required("Campo obrigatório"),
 
   telefone: yup
@@ -39,7 +40,7 @@ const schema = yup.object().shape({
 interface AddUsuarioProps {
   onSubmit: (data: any) => void;
   onClose: () => void;
-  value?: IUsuario;
+  value?: IUsuarioType;
 }
 
 export const AddCliente: FC<AddUsuarioProps> = ({
@@ -53,9 +54,10 @@ export const AddCliente: FC<AddUsuarioProps> = ({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<IUsuario>({
+  } = useForm<IUsuarioType>({
     resolver: yupResolver(schema),
     defaultValues: {
+      id:value.id??undefined,
       nome: value?.nome ?? "",
       telefone: value?.telefone ?? "",
       rua: value?.rua ?? "",

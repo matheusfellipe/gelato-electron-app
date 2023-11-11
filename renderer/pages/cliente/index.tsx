@@ -98,11 +98,13 @@ openModal({
 
 const updateDeliveryMan = async (data: IUsuarioType) => {
   console.log("🚀 ~ file: index.tsx:100 ~ updateDeliveryMan ~ data:", data)
+  console.log("🚀 ~ file: index.tsx:106 ~ updateDeliveryMan ~ data.id:", data.id)
   try {
     await putUsuario({
       ...data,
-     
-    });
+      
+    },data.id);
+    
     closeAllModals();
     const response = await getUsuarios();
     setUsuario(response);
