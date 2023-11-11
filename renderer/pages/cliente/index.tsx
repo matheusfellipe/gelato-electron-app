@@ -134,7 +134,7 @@ const deleteDeliveryMan = async (id: number) => {
     await deleteUsuario(id);
     const response = await getUsuarios();
     closeAllModals();
-    // setCremosinho(response);
+    setUsuario(response);
   } catch (error) {
     console.log(error);
   }

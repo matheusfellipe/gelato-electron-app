@@ -55,6 +55,7 @@ export const postUsuario = async (usuario: IUsuario) => {
 
 export const putUsuario = async (usuario: IUsuarioType) => {
   console.log("🚀 ~ file: cliente.service.ts:57 ~ putUsuario ~ usuario:", usuario)
+  
   const data = {
     id:usuario.id,
     nome: usuario.nome,
@@ -63,6 +64,7 @@ export const putUsuario = async (usuario: IUsuarioType) => {
     rua: usuario.rua,
     telefone: usuario.telefone,
   };
+  console.log("🚀 ~ file: cliente.service.ts:66 ~ putUsuario ~ data:", data)
 
   const response = await fetch(`/api/cliente`, {
     method: "POST",
