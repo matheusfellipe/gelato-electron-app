@@ -52,7 +52,62 @@ export default function handler(req, res) {
           res.status(500).json({ error: "Internal Server Error" });
         });
     }
+  
+  }  else if (req.method === 'DELETE') {
+    if (req.query.id) {
+      const saborId = parseInt(req.query.id);
+
+      prisma.sabor
+        .delete({
+          where: {
+            id: saborId,
+          },
+        })
+        .then(() => {
+          res.status(200).json({ message: "Sabor excluído com sucesso" });
+        })
+        .catch((error) => {
+          console.error("Erro ao excluir sabor:", error);
+          res.status(500).json({ error: "Internal Server Error" });
+        });
+    } else {
+      res.status(400).json({ error: "ID do sabor não fornecido para exclusão" });
+    }
+  } else if (req.method === 'PUT') {
+    try {
+      if (req.query.id) {
+        const saborId = parseInt(req.query.id);
+        const { descricao, ativo } = req.body;
+
+        const updatedSabor = prisma.sabor.update({
+          where: {
+            id: saborId,
+          },
+          data: {
+            descricao,
+            ativo,
+          },
+        })
+        .then((sabor) => {
+          if (sabor) {
+            res.status(200).json({ message: "Sabor atualizado com sucesso", data: sabor });
+          } else {
+            res.status(404).json({ error: "Sabor não encontrado" });
+          }
+        })
+        .catch((error) => {
+          console.error("Erro ao atualizar sabor:", error);
+          res.status(500).json({ error: "Internal Server Error" });
+        });
+      } else {
+        res.status(400).json({ error: "ID do sabor não fornecido para atualização" });
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar sabor:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   } else {
     res.status(405).end(); // Método não permitido
   }
+
 }

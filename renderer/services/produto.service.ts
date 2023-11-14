@@ -1,53 +1,77 @@
-export interface ICremosinho {
-    sabor: string;
-    vlr_unitario: string;
-    qtd_estoque: number;
-    inativo: "f" | "v";
-    id_cremosinho?: number;
+export interface IProduto {
+  preco: number;
+  quantidade: number;
+  volume: number;
+  saborId: number; // Referência ao ID do sabor
+}
+
+export interface IProdutoType extends IProduto {
+  id: number;
+}
+
+export const getProdutos = async () => {
+  console.log("🚀 ~ file: produto.service.ts:26 ~ getProdutos ~ entrou aqui:");
+
+  const response = await fetch("/api/produto", {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Erro ao obter produtos: ${response.statusText}`);
   }
 
+  console.log("🚀 ~ file: produto.service.ts:27 ~ getProdutos ~ response:", response);
+  const { data } = await response.json();
 
-  export interface ICremosinhoPrice {
-    sabor: string;
-    vlr_unitario: number;
-    qtd_estoque: number;
-    inativo: "f" | "v";
-    id_cremosinho?: number;
-  }
-  
-  export interface ICremosinhoType extends ICremosinho {
-    id_cremosinho: number;
-  }
+  return data as IProdutoType[];
+};
 
-  // export const getProdutoById = async (produtoId) => {
-  //   try {
-  //     const produto = await prisma.produto.findFirst({
-  //       where: {
-  //         id: produtoId,
-  //       },
-  //       include: {
-  //         sabor: true,
-  //       },
-  //     });
-  
-  //     return produto;
-  //   } catch (error) {
-  //     console.error("Erro ao obter produto por ID:", error);
-  //     throw error;
-  //   }
-  // };
-  
-  export const getAllProdutos = async () => {
-    const response = await fetch("/api/produto",{
-      method:"GET"
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Erro ao obter usuários: ${response.statusText}`);
-    }
-    
-    console.log("🚀 ~ file: cliente.service.ts:27 ~ getUsuarios ~ response:", response)
-    const data = await response.json();
-   
-    return data as ICremosinhoType[];
+export const postProduto = async (produto: IProduto) => {
+  console.log("🚀 ~ file: produto.service.ts:28 ~ postProduto ~ produto:", produto);
+
+  const data = {
+    preco: produto.preco,
+    quantidade: produto.quantidade,
+    volume: produto.volume,
+    saborId: produto.saborId,
   };
+
+  const response = await fetch("/api/produto", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+};
+
+export const putProduto = async (produto: IProdutoType, id: number) => {
+  console.log("🚀 ~ file: produto.service.ts:57 ~ putProduto ~ id:", id);
+  console.log("🚀 ~ file: produto.service.ts:57 ~ putProduto ~ produto:", produto);
+
+  const data = {
+    preco: produto.preco,
+    quantidade: produto.quantidade,
+    volume: produto.volume,
+    saborId: produto.saborId,
+  };
+  console.log("🚀 ~ file: produto.service.ts:66 ~ putProduto ~ data:", data);
+
+  const response = await fetch(`/api/produto?id=${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+};
+
+export const deleteProduto = async (id: number) => {
+  console.log("🚀 ~ file: produto.service.ts:79 ~ deleteProduto ~ id:", id);
+  const response = await fetch(`/api/produto?id=${id}`, {
+    method: "DELETE",
+  });
+
+  return response.json();
+};

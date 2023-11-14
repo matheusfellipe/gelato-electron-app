@@ -16,9 +16,9 @@ import { AddProduto } from "../../components/AddProduto";
 import { showNotification } from '@mantine/notifications';
 import {
 
-  ICremosinho,
-  ICremosinhoType,
-  getAllProdutos,
+  IProduto,
+  IProdutoType,
+  getProdutos,
  
 } from "../../services/produto.service"
 import { convertMoney } from "../../utils/string";
@@ -36,24 +36,24 @@ const ths = (
   </tr>
 );
 interface ProductProps {
-  allCremosinho: ICremosinhoType[];
+  allCremosinho: IProdutoType[];
 }
 
 const Product: FC<ProductProps> = ({ allCremosinho }) => {
   const [cremosinho, setCremosinho] =
-    useState<ICremosinhoType[]>(allCremosinho);
+    useState<IProdutoType[]>(allCremosinho);
 
   const rows = cremosinho.map((element) => (
-    <tr key={element.id_cremosinho}>
-      <td>{element.sabor}</td>
-      <td>{convertMoney(element.vlr_unitario)}</td>
-      <td>{element.qtd_estoque}</td>
+    <tr key={element.id}>
+      <td>{element.volume}</td>
+      <td>{convertMoney(element.preco)}</td>
+      <td>{element.quantidade}</td>
       <td className={styles.tableFlex}>
         <ActionIcon onClick={() => modalUpdate(element)} size={20} color="blue">
           <IconEdit />
         </ActionIcon>
         <ActionIcon
-          onClick={() => openDeleteModal(element.id_cremosinho, element.sabor)}
+          onClick={() => openDeleteModal(element.id, element.quantidade)}
           size={20}
           color="red"
         >
@@ -63,8 +63,8 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
     </tr>
   ));
 
-  const addProduct = async (data: ICremosinho) => {
-    console.log((onlyNumbers(data.vlr_unitario) / 100).toFixed(0));
+  const addProduct = async (data: IProduto) => {
+ 
 
     try {
       // await postCremosinho({
@@ -88,7 +88,7 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
     }
   };
 
-  const updateProduct = async (data: ICremosinho) => {
+  const updateProduct = async (data: IProduto) => {
     try {
       // await putCremosinho({
       //   ...data,
@@ -102,7 +102,7 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
     }
   };
 
-  const modalUpdate = (data: ICremosinho) =>
+  const modalUpdate = (data: IProduto) =>
     openModal({
       title: "Editar Produto",
       centered: true,
@@ -174,7 +174,7 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   try {
-    const response = await getAllProdutos();
+    const response = await getProdutos();
     console.log("🚀 ~ file: index.tsx:176 ~ getServerSideProps ~ entrou aqui:")
 
     return {
