@@ -11,9 +11,9 @@ import {
   import Link from "next/link";
   import styles from "./styles.module.scss";
 
-  import {  IVendaType, IVendaView } from "../../services/venda.service";
+  import {  IVendaType, IVendaView, getVenda } from "../../services/venda.service";
   import { GetServerSidePropsContext } from "next/types";
-  import { FC, useState } from "react";
+  import { FC, useEffect, useState } from "react";
 
   import { formattedValue } from "../../utils/formatter";
   import { convertDate } from "../../utils/string";
@@ -38,12 +38,29 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
     allVenda: IVendaView[];
   }
   
-  const Dashboard: FC<VendaProps> = ({ allVenda }) => {
+  const Dashboard: FC<VendaProps> = () => {
     const { push } = useRouter();
-    const [venda, setVenda] = useState<IVendaView[]>(allVenda);
-    console.log(allVenda);
+    const [venda, setVenda] = useState<IVendaView[]>();
+    console.log("🚀 ~ file: index.tsx:44 ~ venda:", venda)
+ 
+
+    const fetchAllVendas = async () => {
+      try {
+        const response = await getVenda();
+        console.log("🚀 ~ file: index.tsx:50 ~ fetchAllVendas ~ response:", response)
+        setVenda(response);
+      } catch (error) {
+        console.error("Erro ao obter entregadores:", error);
+      }
+    };
   
-    const rows = venda.map((element) => (
+    useEffect(() => {
+      fetchAllVendas();
+    }, []);
+
+
+  
+    const rows = venda?.map((element) => (
       <tr key={element.id_venda}>
         <td>{element.cliente}</td>
         <td>{formattedValue(element.total_da_venda)}</td>

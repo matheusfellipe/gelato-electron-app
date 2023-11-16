@@ -1,20 +1,12 @@
 
 import { Button, Checkbox, Select } from "@mantine/core";
-
 import { GetServerSidePropsContext } from "next";
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Cart } from "../../components/Cart"; 
-
-// import { ListAllCremosinho } from "../../../components/ListAllCremosinho";
 import { IProduto, IProdutoType, getProdutos } from "../../services/produto.service";
-// import { getEntregador } from "../../../services/entregadorService";
-// import { getFormaDePagamento } from "../../../services/formaDePagamentoService";
-// import { getStatus } from "../../../services/statusService";
 import { formattedValue } from "../../utils/formatter";
 import styles from "./styles.module.scss";
-// import { getUsuario } from "../../../services/usuarioService";
-// import { postVenda } from "../../../services/vendaService";
 import { useRouter } from "next/router";
 import { showNotification } from "@mantine/notifications";
 import { ListAllCremosinho } from "../../components/ListAllProduto";

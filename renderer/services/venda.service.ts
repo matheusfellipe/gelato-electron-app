@@ -12,6 +12,25 @@ export interface IVenda {
   itens: IVendaItem[];
 }
 
+export interface IVendaType extends IVenda {
+  id_venda: number;
+}
+
+
+export interface IVendaView {
+  id_venda: string;
+  cliente: string;
+  total_da_venda: string;
+  data_da_venda: string;
+  entrega: string;
+  entregador: string;
+  dt_entrega: string;
+  pago: string;
+  forma_de_pagamento: string;
+  status_da_venda: string;
+}
+
+
 export const postVenda = async (venda: IVenda) => {
   console.log("🚀 ~ file: venda.service.ts:15 ~ postVenda ~ venda:", venda);
 
@@ -35,7 +54,7 @@ export const postVenda = async (venda: IVenda) => {
   return response.json();
 };
 
-export const getVenda = async (id: number) => {
+export const getVenda = async (id?: number) => {
   console.log("🚀 ~ file: venda.service.ts:27 ~ getVenda ~ id:", id);
 
   const response = await fetch(`/api/venda/${id}`, {
@@ -45,8 +64,8 @@ export const getVenda = async (id: number) => {
   if (!response.ok) {
     throw new Error(`Erro ao obter venda: ${response.statusText}`);
   }
-
-  return response.json() as unknown as IVenda;
+  const { data } = await response.json();
+  return data as unknown as IVendaView[];
 };
 
 export const putVenda = async (id: number, venda: IVenda) => {
