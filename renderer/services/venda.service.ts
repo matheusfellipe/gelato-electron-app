@@ -1,3 +1,7 @@
+import { IUsuarioType } from "./cliente.service";
+import { IEntregadorType } from "./entregador.service";
+import { IFormaDePagamentoType } from "./forma-pagamento.service";
+
 export interface IVenda {
   clienteId: number;
   dataVenda: string;
@@ -13,15 +17,15 @@ export interface IVendaType extends IVenda {
 
 export interface IVendaView {
   id: number;
-  cliente: string;
-  total_da_venda: string;
-  data_da_venda: string;
-  entrega: string;
-  entregador: string;
-  dt_entrega: string;
-  pago: string;
-  forma_de_pagamento: string;
-  status_da_venda: string;
+  entregadorId: number;
+  formaPagamentoId: number;
+  clienteId: number;
+  dataVenda: string;
+  valorTotal: number;
+  pago: boolean;
+  cliente: IUsuarioType;
+  entregador: IEntregadorType;
+  formaPagamento: IFormaDePagamentoType;
 }
 
 export interface IVendaItem {
@@ -101,7 +105,7 @@ export const getVenda = async () => {
 
   const { data } = await response.json();
   
-  return data as unknown as IVendaItem[];
+  return data as unknown as IVendaView[];
 };
 
 export const putVenda = async (id: number, venda: IVenda) => {

@@ -41,7 +41,7 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
   
   const Dashboard: FC<VendaProps> = () => {
     const { push } = useRouter();
-    const [venda, setVenda] = useState<IVendaItem[]>();
+    const [venda, setVenda] = useState<IVendaView[]>();
  
    
  
@@ -65,12 +65,12 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
   
     const rows = venda?.map((element) => (
       <tr key={element?.id}>
-        <td>{element?.carrinho?.cliente?.nome}</td>
+        <td>{element?.cliente?.nome}</td>
         <td>{formattedValue(element?.valorTotal)}</td>
-        <td>{convertDate(element?.carrinho?.dataVenda)}</td>
-        <td>{element?.carrinho?.entregador?.nome ?? "Nenhum"}</td>
-        <td>{element?.carrinho?.pago === true ? "Sim" : "Não"}</td>
-        <td>{element?.carrinho?.formaPagamento?.descricao}</td>
+        <td>{convertDate(element?.dataVenda)}</td>
+        <td>{element?.entregador?.nome ?? "Nenhum"}</td>
+        <td>{element?.pago === true ? "Sim" : "Não"}</td>
+        <td>{element?.formaPagamento?.descricao}</td>
       
         <td className={styles.tableFlex}>
           <ActionIcon
@@ -78,6 +78,7 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
             size={20}
             color="blue"
           >
+            
             <IconEdit />
           </ActionIcon>
           <ActionIcon size={20} color="red">

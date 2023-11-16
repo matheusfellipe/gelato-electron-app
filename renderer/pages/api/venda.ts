@@ -49,13 +49,7 @@ export default function handler(req, res) {
             itens: {
               include: {
                 produto: true,
-                carrinho: {
-                  include:{
-                    cliente:true,
-                    entregador:true,
-                    formaPagamento:true
-                  }
-                }
+                carrinho:true
                 
               },
             },
@@ -76,18 +70,10 @@ export default function handler(req, res) {
       prisma.carrinho
         .findMany({
           include: {
-            itens: {
-              include: {
-                produto: true,
-                 carrinho: {
-                  include:{
-                    cliente:true,
-                    entregador:true,
-                    formaPagamento:true
-                  }
-                }
-              },
-            },
+          
+            cliente:true,
+            entregador:true,
+            formaPagamento:true
           },
         })
         .then((carrinhos) => {
