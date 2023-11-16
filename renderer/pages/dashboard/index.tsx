@@ -11,7 +11,7 @@ import {
   import Link from "next/link";
   import styles from "./styles.module.scss";
 
-  import {  IVendaType, IVendaView, getVenda } from "../../services/venda.service";
+  import {  IVendaItem, IVendaType, IVendaView, getVenda } from "../../services/venda.service";
   import { GetServerSidePropsContext } from "next/types";
   import { FC, useEffect, useState } from "react";
 
@@ -20,17 +20,18 @@ import {
   import { useRouter } from "next/router";
 import { Layout } from "../../components/Layout";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
+
   const ths = (
     <tr>
       <th>Cliente</th>
       <th>Total da Venda</th>
       <th>Data da Venda</th>
-      <th>Entrega</th>
+      
       <th>Entregador</th>
-      <th>Data da Entrega</th>
+    
       <th>Pago</th>
       <th>Forma de Pagamento</th>
-      <th>Status da Venda</th>
+   
       <th>Ações</th>
     </tr>
   );
@@ -40,14 +41,15 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
   
   const Dashboard: FC<VendaProps> = () => {
     const { push } = useRouter();
-    const [venda, setVenda] = useState<IVendaView[]>();
-    console.log("🚀 ~ file: index.tsx:44 ~ venda:", venda)
+    const [venda, setVenda] = useState<IVendaItem[]>();
+ 
+   
  
 
     const fetchAllVendas = async () => {
       try {
         const response = await getVenda();
-        console.log("🚀 ~ file: index.tsx:50 ~ fetchAllVendas ~ response:", response)
+   
         setVenda(response);
       } catch (error) {
         console.error("Erro ao obter entregadores:", error);
@@ -61,19 +63,17 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
 
   
     const rows = venda?.map((element) => (
-      <tr key={element.id_venda}>
-        <td>{element.cliente}</td>
-        <td>{formattedValue(element.total_da_venda)}</td>
-        <td>{convertDate(element.data_da_venda)}</td>
-        <td>{element.entrega === "s" ? "Sim" : "Não"}</td>
-        <td>{element.entregador ?? "Nenhum"}</td>
-        <td>{convertDate(element.dt_entrega)}</td>
-        <td>{element.pago === "s" ? "Sim" : "Não"}</td>
-        <td>{element.forma_de_pagamento}</td>
-        <td>{element.status_da_venda}</td>
+      <tr key={element?.id}>
+        <td>{element?.carrinho?.cliente?.nome}</td>
+        <td>{formattedValue(element?.valorTotal)}</td>
+        <td>{convertDate(element?.carrinho?.dataVenda)}</td>
+        <td>{element?.carrinho?.entregador?.nome ?? "Nenhum"}</td>
+        <td>{element?.carrinho?.pago === true ? "Sim" : "Não"}</td>
+        <td>{element?.carrinho?.formaPagamento?.descricao}</td>
+      
         <td className={styles.tableFlex}>
           <ActionIcon
-            onClick={() => push(`/dashboard/edit/${element.id_venda}`)}
+            onClick={() => push(`/dashboard/edit/${element.id}`)}
             size={20}
             color="blue"
           >
@@ -98,7 +98,7 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
           <div className={styles.tableStyle}>
             <Button
               component={Link}
-              href="/dashboard/create"
+              href="/venda"
               color="blue"
               size="md"
             >
@@ -117,46 +117,4 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
   
   export default Dashboard;
   
-  export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-    try {
-    //   const response = await getVenda();
   
-      return {
-        props: {
-          allVenda:  [
-            {
-              id_venda: 1,
-              cliente: 'Cliente A',
-              total_da_venda: 100.5,
-              data_da_venda: '2023-10-20',
-              entrega: 's',
-              entregador: 'Entregador A',
-              dt_entrega: '2023-10-25',
-              pago: 's',
-              forma_de_pagamento: 'Cartão de Crédito',
-              status_da_venda: 'Concluída',
-            },
-            {
-              id_venda: 2,
-              cliente: 'Cliente B',
-              total_da_venda: 75.0,
-              data_da_venda: '2023-10-21',
-              entrega: 'n',
-              entregador: null,
-              dt_entrega: null,
-              pago: 'n',
-              forma_de_pagamento: 'Dinheiro',
-              status_da_venda: 'Pendente',
-            },
-            // Adicione mais objetos conforme necessário
-          ],
-        },
-      };
-    } catch {
-      return {
-        props: {
-          allVenda: [],
-        },
-      };
-    }
-  }

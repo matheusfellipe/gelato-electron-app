@@ -49,6 +49,14 @@ export default function handler(req, res) {
             itens: {
               include: {
                 produto: true,
+                carrinho: {
+                  include:{
+                    cliente:true,
+                    entregador:true,
+                    formaPagamento:true
+                  }
+                }
+                
               },
             },
           },
@@ -71,6 +79,13 @@ export default function handler(req, res) {
             itens: {
               include: {
                 produto: true,
+                 carrinho: {
+                  include:{
+                    cliente:true,
+                    entregador:true,
+                    formaPagamento:true
+                  }
+                }
               },
             },
           },
