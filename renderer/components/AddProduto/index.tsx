@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Checkbox, TextInput } from "@mantine/core";
 import { useForm } from "react-hook-form";
-import { ICremosinho} from '../../services/produto.service'
+import { IProduto} from '../../services/produto.service'
 import styles from "./styles.module.scss";
 import * as yup from "yup";
 import { FC } from "react";
@@ -14,9 +14,9 @@ const schema = yup.object().shape({
 });
 
 interface AddCremosinhoProps {
-  onSubmit: (data: ICremosinho) => void;
+  onSubmit: (data: IProduto) => void;
   onClose: () => void;
-  value?: ICremosinho;
+  value?: IProduto;
 }
 
 export const AddProduto: FC<AddCremosinhoProps> = ({
@@ -30,18 +30,17 @@ export const AddProduto: FC<AddCremosinhoProps> = ({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<ICremosinho>({
+  } = useForm<IProduto>({
     resolver: yupResolver(schema),
     defaultValues: {
-      vlr_unitario: formattedValue(value?.vlr_unitario ?? "") ?? "R$ 0,00",
-      qtd_estoque: value?.qtd_estoque ?? 0,
-      sabor: value?.sabor ?? "",
-      inativo: value?.inativo ?? "f",
-      id_cremosinho: value?.id_cremosinho,
+      preco: formattedValue(value?.preco ?? "") ?? "R$ 0,00",
+      quantidade: value?.quantidade ?? 0,
+      volume: value?.volume ?? 0,
+      saborId: value?.saborId,
     },
   });
 
-  const isInativo = watch("inativo") === "v" ? true : false;
+  // const isInativo = watch("inativo") === "v" ? true : false;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.containerModal}>

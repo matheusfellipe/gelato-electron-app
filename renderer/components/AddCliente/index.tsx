@@ -57,7 +57,6 @@ export const AddCliente: FC<AddUsuarioProps> = ({
   } = useForm<IUsuarioType>({
     resolver: yupResolver(schema),
     defaultValues: {
-      id:value.id??undefined,
       nome: value?.nome ?? "",
       telefone: value?.telefone ?? "",
       rua: value?.rua ?? "",

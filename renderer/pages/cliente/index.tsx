@@ -158,7 +158,7 @@ openConfirmModal({
   return (
     <React.Fragment>
       <Head>
-        <title>Home - Nextron (with-typescript-material-ui)</title>
+        <title>Gelato Gramado App</title>
       </Head>
     <Layout >
       <div>
@@ -173,27 +173,5 @@ openConfirmModal({
   )
 }
 
-
-
-
-
-// export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-//   try {
-//     const response = await getUsuarios();
-  
-//     console.log("🚀 ~ file: index.tsx:163 ~ getServerSideProps ~ entrou aqui:")
-//     return {
-//       props: {
-//         allUsuarios: response,
-//       },
-//     };
-//   } catch {
-//     return {
-//       props: {
-//         allUsuarios: [],
-//       },
-//     };
-//   }
-// }
 
 export default ClientePage
