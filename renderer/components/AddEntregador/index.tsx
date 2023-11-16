@@ -7,22 +7,20 @@ import * as yup from "yup";
 import styles from "./styles.module.scss";
 
 import InputMask from "react-input-mask";
-import { ISabor,ISaborType } from "../../services/sabor.service";
+import { IEntregador,IEntregadorType } from "../../services/entregador.service";
 
 const schema = yup.object().shape({
-
-  descricao: yup.string().required("Campo obrigatório"),
-  ativo: yup.bool(),
- 
+  nome: yup.string().required("Campo obrigatório"),
+  telefone: yup.string().required("Campo obrigatório"),
 });
 
-interface AddSaborProps {
+interface AddEntregadorProps {
   onSubmit: (data: any) => void;
   onClose: () => void;
-  value?: ISaborType;
+  value?: IEntregadorType;
 }
 
-export const AddSabor: FC<AddSaborProps> = ({
+export const AddEntregador: FC<AddEntregadorProps> = ({
   onClose,
   onSubmit,
   value,
@@ -33,12 +31,11 @@ export const AddSabor: FC<AddSaborProps> = ({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<ISaborType>({
+  } = useForm<IEntregadorType>({
     resolver: yupResolver(schema),
     defaultValues: {
-     
-      descricao: value?.descricao ?? "",
-      ativo: value?.ativo
+      nome: value?.nome || "",
+      telefone: value?.telefone || ""
      
     },
     
@@ -50,37 +47,23 @@ export const AddSabor: FC<AddSaborProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.containerModal}>
       <TextInput
-        {...register("descricao")}
+        {...register("nome")}
         label="Nome"
         placeholder="Nome"
-        error={errors.descricao?.message}
+        error={errors.nome?.message}
       />
-
-
-    
-     
-       <Switch
-        {...register("ativo")}
-        label="Ativo"
-       
+      <TextInput
+        {...register("telefone")}
+        label="Telefone"
+        placeholder="Telefone"
+        error={errors.telefone?.message}
       />
 
       <div className={styles.ContainerButtons}>
-        <Button
-          className={styles.Buttons}
-          color="blue.6"
-          variant="outline"
-          onClick={onClose}
-
-        >
+        <Button className={styles.Buttons} color="blue.6" variant="outline" onClick={onClose}>
           Cancelar
         </Button>
-        <Button
-          className={styles.Buttons}
-          color="blue.6"
-          type="submit"
-
-        >
+        <Button className={styles.Buttons} color="blue.6" type="submit">
           Gravar
         </Button>
       </div>

@@ -3,7 +3,10 @@ import prisma from "../../data/db";
 export default function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      const { id, nome, bairro, cidade, rua, telefone } = req.body;
+      const { nome, bairro, cidade, rua, telefone } = JSON.parse(req.body);
+
+    
+      
   
       
         const createdCliente =  prisma.cliente.create({

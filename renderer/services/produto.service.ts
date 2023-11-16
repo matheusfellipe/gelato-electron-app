@@ -1,13 +1,15 @@
+
+
 export interface IProduto {
-  preco: number;
-  quantidade: number;
-  volume: number;
-  saborId: number; // Referência ao ID do sabor
+  qtd_estoque: number;
+  sabor: string;
+  vlr_unitario: string;
 }
 
 export interface IProdutoType extends IProduto {
   id: number;
 }
+
 
 export const getProdutos = async () => {
   console.log("🚀 ~ file: produto.service.ts:26 ~ getProdutos ~ entrou aqui:");
@@ -31,10 +33,10 @@ export const postProduto = async (produto: IProduto) => {
   console.log("🚀 ~ file: produto.service.ts:28 ~ postProduto ~ produto:", produto);
 
   const data = {
-    preco: produto.preco,
-    quantidade: produto.quantidade,
-    volume: produto.volume,
-    saborId: produto.saborId,
+    preco: produto.vlr_unitario,
+    quantidade: produto.qtd_estoque,
+    sabor: produto.sabor,
+ 
   };
 
   const response = await fetch("/api/produto", {
@@ -50,10 +52,9 @@ export const putProduto = async (produto: IProdutoType, id: number) => {
   console.log("🚀 ~ file: produto.service.ts:57 ~ putProduto ~ produto:", produto);
 
   const data = {
-    preco: produto.preco,
-    quantidade: produto.quantidade,
-    volume: produto.volume,
-    saborId: produto.saborId,
+    preco: produto.vlr_unitario,
+    quantidade: produto.qtd_estoque,
+    sabor: produto.sabor,
   };
   console.log("🚀 ~ file: produto.service.ts:66 ~ putProduto ~ data:", data);
 

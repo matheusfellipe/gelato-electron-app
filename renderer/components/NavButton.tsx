@@ -18,12 +18,12 @@ const rotas = [
   {
     label: "Produto",
     value: "/home",
-    icon: <IconHome size={14} />,
+    icon: <IconIceCream size={14} />,
   },
   {
-    label: "Sabor",
-    value: "/sabor",
-    icon: <IconIceCream size={14} />,
+    label: "Entregador",
+    value: "/entregador",
+    icon: <IconHome size={14} />,
   },
   {
     label: "Cliente",

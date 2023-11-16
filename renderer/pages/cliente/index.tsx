@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { ActionIcon, Button, Table, Text } from '@mantine/core'
-import Link from 'next/link'
 import { Layout } from '../../components/Layout'
-import { SaborModal } from '../../components/AddSabor'
 import { AddCliente } from '../../components/AddCliente'
-import { GetServerSidePropsContext } from 'next'
 import { IUsuario, IUsuarioType,  deleteUsuario,  getUsuarios,  postUsuario, putUsuario } from '../../services/cliente.service'
 import { closeAllModals, openConfirmModal, openModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { formattedCpf } from '../../utils/formatter'
 import styles from "./styles.module.scss";
 
 

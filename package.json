@@ -10,6 +10,7 @@
     "build": "nextron build",
     "postinstall": "electron-builder install-app-deps"
   },
+  
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
     "@mantine/core": "^7.1.2",

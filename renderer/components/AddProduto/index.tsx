@@ -8,7 +8,7 @@ import { FC } from "react";
 import { formattedValue } from "../../utils/formatter";
 
 const schema = yup.object().shape({
-  saborId: yup.string().required("Campo obrigatório"),
+  saborName: yup.string().required("Campo obrigatório"),
   preco: yup.number().required("Campo obrigatório").min(0, "Mínimo 0"),
   quantidade: yup.number().required("Campo obrigatório").min(1, "Mínimo 1"),
   volume: yup.number().required("Campo obrigatório").min(0, "Mínimo 0"), 
@@ -34,60 +34,45 @@ export const AddProduto: FC<AddCremosinhoProps> = ({
   } = useForm<IProduto>({
     resolver: yupResolver(schema),
     defaultValues: {
-      preco:value?.preco  ?? 0,
-      quantidade: value?.quantidade ?? 0,
-      volume: value?.volume ?? 0,
-      saborId: value?.saborId,
+      vlr_unitario: value?.vlr_unitario ?? "",
+      qtd_estoque: value?.qtd_estoque ?? 0,
+      sabor: value?.sabor ?? "",
     },
   });
 
   // const isInativo = watch("inativo") === "v" ? true : false;
 
   return (
-<form onSubmit={handleSubmit(onSubmit)} className={styles.containerModal}>
-  <TextInput
-    {...register("preco")}
-    label="Preço"
-    type="number" 
-    placeholder="Preço"
-    onChange={(e) => {
-    
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.containerModal}>
+      <TextInput
+        {...register("vlr_unitario")}
+        label="Valor Unitário"
+        placeholder="Valor Unitário"
+        error={errors.vlr_unitario?.message}
+      />
+      <TextInput
+        {...register("qtd_estoque")}
+        label="Quantidade em Estoque"
+        type="number"
+        onChange={(e) => setValue("qtd_estoque", e.target.value ? Number(e.target.value) : 0)}
+        placeholder="Quantidade em Estoque"
+        error={errors.qtd_estoque?.message}
+      />
+      <TextInput
+        {...register("sabor")}
+        label="Sabor"
+        placeholder="Sabor"
+        error={errors.sabor?.message}
+      />
 
-      setValue("preco", e.target.value? Number(e.target.value) : 0);
-    }}
-    error={errors.preco?.message}
-  />
-  <TextInput
-    {...register("quantidade")}
-    label="Quantidade"
-    type="number" // Definido como número para receber apenas valores numéricos
-    onChange={(e) =>
-      setValue("quantidade", e.target.value ? Number(e.target.value) : 0)
-    }
-    placeholder="Quantidade"
-    error={errors.quantidade?.message}
-  />
-
- 
-
-  <div className={styles.ContainerButtons}>
-    <Button
-      className={styles.Buttons}
-      color="blue.6"
-      variant="outline"
-      onClick={onClose}
-    >
-      Cancelar
-    </Button>
-    <Button
-      className={styles.Buttons}
-      color="blue.6"
-      type="submit"
-    >
-      Gravar
-    </Button>
-  </div>
-</form>
-
+      <div className={styles.ContainerButtons}>
+        <Button className={styles.Buttons} color="blue.6" variant="outline" onClick={onClose}>
+          Cancelar
+        </Button>
+        <Button className={styles.Buttons} color="blue.6" type="submit">
+          Gravar
+        </Button>
+      </div>
+    </form>
   );
 };

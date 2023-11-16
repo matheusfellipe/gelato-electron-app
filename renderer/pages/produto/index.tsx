@@ -45,6 +45,9 @@ const Product: FC<ProductProps> = () => {
     const fetchProdutos = async () => {
       try {
         const response = await getProdutos();
+        response.map(item=>{
+          
+        })
         setProduto(response);
         console.log("🚀 ~ file: index.tsx:49 ~ fetchProdutos ~ response:", response)
       } catch (error) {
@@ -56,25 +59,26 @@ const Product: FC<ProductProps> = () => {
       fetchProdutos();
     }, []);
 
-  const rows = produto.map((element) => (
-    <tr key={element.id}>
-      <td>{element.saborId}</td>
-      <td>{convertMoney(element.preco)}</td>
-      <td>{element.quantidade}</td>
-      <td className={styles.tableFlex}>
-        <ActionIcon onClick={() => modalUpdate(element)} size={20} color="blue">
-          <IconEdit />
-        </ActionIcon>
-        <ActionIcon
-          onClick={() => openDeleteModal(element.id, element.saborId)}
-          size={20}
-          color="red"
-        >
-          <IconTrash />
-        </ActionIcon>
-      </td>
-    </tr>
-  ));
+    const rows = produto?.map((element) => (
+      <tr key={element.id}>
+        <td>{element.sabor}</td>
+        <td>{convertMoney(element.vlr_unitario)}</td>
+        <td>{element.qtd_estoque}</td>
+        <td className={styles.tableFlex}>
+          <ActionIcon onClick={() => modalUpdate(element)} size={20} color="blue">
+            <IconEdit />
+          </ActionIcon>
+          <ActionIcon
+            onClick={() => openDeleteModal(element.id, element.sabor)}
+            size={20}
+            color="red"
+          >
+            <IconTrash />
+          </ActionIcon>
+        </td>
+      </tr>
+    ));
+    
 
   const addProduct = async (data: IProduto) => {
    
@@ -150,7 +154,7 @@ const Product: FC<ProductProps> = () => {
     }
   };
 
-  const openDeleteModal = (id: number, name: number) =>
+  const openDeleteModal = (id: number, name: string) =>
     openConfirmModal({
       title: "Excluir Produto",
       centered: true,
