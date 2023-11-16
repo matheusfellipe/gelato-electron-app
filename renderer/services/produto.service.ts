@@ -20,8 +20,9 @@ export const getProdutos = async () => {
     throw new Error(`Erro ao obter produtos: ${response.statusText}`);
   }
 
-  console.log("🚀 ~ file: produto.service.ts:27 ~ getProdutos ~ response:", response);
+
   const { data } = await response.json();
+  console.log("🚀 ~ file: produto.service.ts:25 ~ getProdutos ~ data:", data)
 
   return data as IProdutoType[];
 };

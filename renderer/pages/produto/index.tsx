@@ -16,9 +16,10 @@ import { AddProduto } from "../../components/AddProduto";
 import { showNotification } from '@mantine/notifications';
 import {
 
-  ICremosinho,
-  ICremosinhoType,
-  getAllProdutos,
+  
+  IProduto,
+  IProdutoType,
+  getProdutos
  
 } from "../../services/produto.service";
 import { convertMoney } from "../../utils/string";
@@ -34,17 +35,18 @@ const ths = (
   </tr>
 );
 interface ProductProps {
-  allCremosinho: ICremosinhoType[];
+  allProduto: IProdutoType[];
 }
 
-const Product: FC<ProductProps> = ({ allCremosinho }) => {
-  const [cremosinho, setCremosinho] =
-    useState<ICremosinhoType[]>(allCremosinho);
+const Product: FC<ProductProps> = () => {
+  const [produto, setProduto] =
+    useState<IProdutoType[]>();
 
     const fetchProdutos = async () => {
       try {
-        const response = await getAllProdutos();
-        setCremosinho(response);
+        const response = await getProdutos();
+        setProduto(response);
+        console.log("🚀 ~ file: index.tsx:49 ~ fetchProdutos ~ response:", response)
       } catch (error) {
         console.error("Erro ao obter produtos:", error);
       }
@@ -54,17 +56,17 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
       fetchProdutos();
     }, []);
 
-  const rows = cremosinho.map((element) => (
-    <tr key={element.id_cremosinho}>
-      <td>{element.sabor}</td>
-      <td>{convertMoney(element.vlr_unitario)}</td>
-      <td>{element.qtd_estoque}</td>
+  const rows = produto.map((element) => (
+    <tr key={element.id}>
+      <td>{element.saborId}</td>
+      <td>{convertMoney(element.preco)}</td>
+      <td>{element.quantidade}</td>
       <td className={styles.tableFlex}>
         <ActionIcon onClick={() => modalUpdate(element)} size={20} color="blue">
           <IconEdit />
         </ActionIcon>
         <ActionIcon
-          onClick={() => openDeleteModal(element.id_cremosinho, element.sabor)}
+          onClick={() => openDeleteModal(element.id, element.saborId)}
           size={20}
           color="red"
         >
@@ -74,46 +76,46 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
     </tr>
   ));
 
-  const addProduct = async (data: ICremosinho) => {
-    console.log((onlyNumbers(data.vlr_unitario) / 100).toFixed(0));
+  const addProduct = async (data: IProduto) => {
+   
 
     try {
-      // await postCremosinho({
+      // await postproduto({
       //   ...data,
       //   inativo: "f",
       //   vlr_unitario: onlyNumbers(data.vlr_unitario) / 100,
       // });
       showNotification({
         title: 'Sucesso',
-        message: 'Cremosinho cadastrado com sucesso',
+        message: 'produto cadastrado com sucesso',
       })
       closeAllModals();
-      // const response = await getCremosinho();
-      // setCremosinho(response);
+      // const response = await getproduto();
+      // setProduto(response);
     } catch (error) {
       showNotification({
         title: 'Erro',
-        message: 'Erro ao cadastrar o cremosinho',
+        message: 'Erro ao cadastrar o produto',
       })
       console.log(error);
     }
   };
 
-  const updateProduct = async (data: ICremosinho) => {
+  const updateProduct = async (data: IProduto) => {
     try {
-      // await putCremosinho({
+      // await putproduto({
       //   ...data,
       //   vlr_unitario: onlyNumbers(data.vlr_unitario) / 100,
       // });
       closeAllModals();
-      // const response = await getCremosinho();
-      // setCremosinho(response);
+      // const response = await getproduto();
+      // setProduto(response);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const modalUpdate = (data: ICremosinho) =>
+  const modalUpdate = (data: IProduto) =>
     openModal({
       title: "Editar Produto",
       centered: true,
@@ -139,16 +141,16 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
 
   const deleteProduct = async (id: number) => {
     try {
-      // await deleteCremosinho(id);
-      // const response = await getCremosinho();
+      // await deleteproduto(id);
+      // const response = await getproduto();
       closeAllModals();
-      // setCremosinho(response);
+      // setProduto(response);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const openDeleteModal = (id: number, name: string) =>
+  const openDeleteModal = (id: number, name: number) =>
     openConfirmModal({
       title: "Excluir Produto",
       centered: true,
@@ -173,7 +175,7 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
           <Button onClick={modalAdd} color="blue" size="md">
             Adicionar
           </Button>
-          <Table striped highlightOnHover  withColumnBorders>
+          <Table striped highlightOnHover  withColumnBorders  className={styles.table}>
             <thead>{ths}</thead>
             <tbody>{rows}</tbody>
           </Table>
@@ -183,23 +185,6 @@ const Product: FC<ProductProps> = ({ allCremosinho }) => {
   );
 };
 
-// export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-//   try {
-//     const response = await getAllProdutos();
-//     console.log("🚀 ~ file: index.tsx:176 ~ getServerSideProps ~ entrou aqui:")
 
-//     return {
-//       props: {
-//         allCremosinho: response,
-//       },
-//     };
-//   } catch {
-//     return {
-//       props: {
-//         allCremosinho: [],
-//       },
-//     };
-//   }
-// }
 
 export default Product;
