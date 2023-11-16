@@ -1,6 +1,3 @@
-import { mapToIVendaView } from "../mapper/venda.mapper";
-
-
 export interface IVenda {
   clienteId: number;
   dataVenda: string;

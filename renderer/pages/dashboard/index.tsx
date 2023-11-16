@@ -49,8 +49,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
     const fetchAllVendas = async () => {
       try {
         const response = await getVenda();
-   
+        
         setVenda(response);
+        console.log("🚀 ~ file: index.tsx:52 ~ fetchAllVendas ~ response:", response)
       } catch (error) {
         console.error("Erro ao obter entregadores:", error);
       }
