@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import { ActionIcon, Button, Table, Text } from '@mantine/core'
+import { ActionIcon, Button, Switch, Table, Text } from '@mantine/core'
 import { Layout } from '../../components/Layout'
 import { AddSabor } from '../../components/AddSabor'
 import styles from "./styles.module.scss";
@@ -39,7 +39,10 @@ const SaborPage = () => {
   const rows = sabor?.map((element) => (
     <tr key={element.id}>
       <td>{element.descricao}</td>
-      <td>{element.ativo}</td>
+      <td>   <Switch
+        checked={element.ativo}
+        onChange={(value) => handleToggle(element.id, value)}
+      /></td>
     
       <td >
         <ActionIcon onClick={() => modalUpdate(element)} size={20} color="blue">
@@ -56,6 +59,10 @@ const SaborPage = () => {
     </tr>
   ));
 
+  const handleToggle = (id, value) => {
+   console.log("🚀 ~ file: index.tsx:63 ~ handleToggle ~ id, value:", id, value)
+   
+  };
   
   const addUsuario = async (data: ISabor) => {
     console.log("🚀 ~ file: index.tsx:32 ~ addUsuario ~ data:", data)
