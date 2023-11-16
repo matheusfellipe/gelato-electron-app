@@ -104,7 +104,7 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
             >
               Adicionar
             </Button>
-            <Table striped highlightOnHover  withColumnBorders>
+            <Table striped highlightOnHover  withColumnBorders className={styles.table}>
               <thead>{ths}</thead>
               <tbody>{rows}</tbody>
             </Table>
