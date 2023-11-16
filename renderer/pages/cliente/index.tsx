@@ -21,6 +21,7 @@ const ths = (
     <th>Cidade</th>
     <th>Bairro</th>
     <th>Rua</th>
+    <th>Ações</th>
   </tr>
 );
 
@@ -52,7 +53,7 @@ const ClientePage= ({allUsuario}) => {
       <td>{element.cidade}</td>
       <td>{element.bairro}</td>
       <td>{element.rua}</td>
-      <td className={styles.tableFlex}>
+      <td >
         <ActionIcon onClick={() => modalUpdate(element)} size={20} color="blue">
           <IconEdit />
         </ActionIcon>
@@ -162,7 +163,7 @@ openConfirmModal({
     <Layout >
       <div>
       <Button onClick={modalAdd} color="blue" size="md">Adcionar Cliente</Button>
-      <Table striped highlightOnHover  withColumnBorders>
+      <Table striped highlightOnHover  withColumnBorders  className={styles.table}>
             <thead>{ths}</thead>
             <tbody>{rows}</tbody>
           </Table>

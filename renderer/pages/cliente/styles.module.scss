@@ -52,6 +52,35 @@
     max-width: min(100%, 1280px);
     width: 90%;
   }
+
+
+  /* styles.module.scss */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.table td {
+  border-bottom: 1px solid #ddd;
+}
+
+.table tr:hover {
+  background-color: #f5f5f5;
+}
+
   
   .containerProduct {
     display: flex;

@@ -36,7 +36,13 @@ const SaborPage = () => {
           {/* <SaborModal descricao={''} ativo={false} /> */}
           <div>
             <CustomTable
-              array={sabor}
+              array={[{
+                id: 1,
+                nome: 'testeasdasdasdasdasdasdadasdasdasd',
+                ativo: 'Não',
+                id_usuario: 1
+
+              }]}
               editValue={function (id: number): void {
                 console.log(id)
               }}
