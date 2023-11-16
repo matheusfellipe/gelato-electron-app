@@ -22,6 +22,7 @@ import { Layout } from "../../components/Layout";
 import { IUsuarioType, getUsuarios } from "../../services/cliente.service";
 import { getEntregadores } from "../../services/entregador.service";
 import { getFormasDePagamento } from "../../services/forma-pagamento.service";
+import { postVenda } from "../../services/venda.service";
 
 export interface ICremosinhoSell extends IProdutoType {
   qtd: number;
@@ -46,10 +47,9 @@ interface IForm {
   dt_entrega: string;
   pago: "s" | "n";
   itens: [any];
-  id_forma_pagamento: number;
-  id_entregador: number;
-  id_status: number;
-  id_usuario: number;
+  formaPagamentoId: number;
+  entregadorId: number;
+  clienteId: number;
 }
 
 const Dashboard: FC<DashboardProps> = () => {
@@ -112,7 +112,7 @@ const Dashboard: FC<DashboardProps> = () => {
   }, []);
 
 
-  const addCremosinho = (cremosinho: IProduto) =>
+  const addCremosinho = (cremosinho: IProdutoType) =>
     setCremosinho((oldCremosinho) => [
       ...oldCremosinho,
       { ...cremosinho, qtd: 1 },
@@ -147,13 +147,15 @@ const Dashboard: FC<DashboardProps> = () => {
   );
 
   const onSubmit = async (data: IForm) => {
+    console.log("🚀 ~ file: index.tsx:150 ~ onSubmit ~ data:", data)
     const resultPerItem = cremosinho.map((item) => ({
       ...item,
       valor: Number(item.vlr_unitario) * item.qtd,
     }));
     const formattedData = { ...data, itens: resultPerItem, total };
+    console.log("🚀 ~ file: index.tsx:156 ~ onSubmit ~ formattedData:", formattedData)
     try {
-    //   await postVenda(formattedData as any);
+       postVenda(formattedData as any);
       showNotification({
         title: 'Sucesso',
         message: 'Venda realizada com sucesso',
@@ -169,9 +171,9 @@ const Dashboard: FC<DashboardProps> = () => {
   };
 
   const entregador = watch("entregador");
-  const idEntregador = watch("id_entregador");
-  const idFormaDePagamento = watch("id_forma_pagamento");
-  const idUsuario = watch("id_usuario");
+  const idEntregador = watch("entregadorId");
+  const idFormaDePagamento = watch("formaPagamentoId");
+  const idUsuario = watch("clienteId");
 
   const pago = watch("pago");
 
@@ -204,7 +206,7 @@ const Dashboard: FC<DashboardProps> = () => {
                     data={entregadores}
                     value={String(idEntregador)}
                     onChange={(e) =>
-                      e !== null && setValue("id_entregador", Number(e))
+                      e !== null && setValue("entregadorId", Number(e))
                     }
                   />
                 
@@ -216,7 +218,7 @@ const Dashboard: FC<DashboardProps> = () => {
               placeholder="Selecione um cliente"
               data={usuario}
               value={String(idUsuario)}
-              onChange={(e) => e !== null && setValue("id_usuario", Number(e))}
+              onChange={(e) => e !== null && setValue("clienteId", Number(e))}
             ></Select>
             <Select
               label="Forma de Pagamento"
@@ -224,7 +226,7 @@ const Dashboard: FC<DashboardProps> = () => {
               data={formaPagamento}
               value={String(idFormaDePagamento)}
               onChange={(e) =>
-                e !== null && setValue("id_forma_pagamento", Number(e))
+                e !== null && setValue("formaPagamentoId", Number(e))
               }
             ></Select>
         
@@ -238,7 +240,7 @@ const Dashboard: FC<DashboardProps> = () => {
           </div>
           <div>
             <ListAllCremosinho
-              actualCremosinho={produto}
+              actualCremosinho={cremosinho}
               addCremosinho={addCremosinho}
             />
 

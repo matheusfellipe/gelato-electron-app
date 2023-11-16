@@ -2,35 +2,39 @@ import prisma from "../../data/db";
 
 export default function handler(req, res) {
   if (req.method === 'POST') {
-    const { clienteId, dataVenda, pago, valorTotal, itens } = req.body;
+   const { entregadorId, formaPagamentoId, clienteId, dataVenda, pago, total, itens } = req.body;
 
-    prisma.carrinho
-      .create({
-        data: {
-          clienteId,
-          dataVenda,
-          pago,
-          valorTotal,
-          itens: {
-            create: itens.map((item) => ({
-              produtoId: item.produtoId,
-              quantidade: item.quantidade,
-              valorTotal: item.valorTotal,
-            })),
-          },
+  prisma.carrinho
+    .create({
+      data: {
+        entregadorId,
+        formaPagamentoId,
+        clienteId,
+        dataVenda: new Date(),
+        valorTotal:total,
+        pago,
+        itens: {
+          create: itens.map((item) => ({
+            quantidade: item.qtd,
+            valorTotal: item.valorTotal,
+            produto: {
+              connect: { id: item.id }
+            }
+          })),
         },
-        include: {
-          itens: true,
-        },
-      })
-      .then((createdCarrinho) => {
-        console.log("🚀 ~ file: carrinho.ts:17 ~ handler ~ createdCarrinho", createdCarrinho);
-        res.status(200).json({ message: "Carrinho created successfully", data: createdCarrinho });
-      })
-      .catch((error) => {
-        console.error("Erro ao criar carrinho:", error);
-        res.status(500).json({ error: "Internal Server Error" });
-      });
+      },
+      include: {
+        itens: true,
+      },
+    })
+    .then((createdCarrinho) => {
+      console.log("Carrinho criado com sucesso:", createdCarrinho);
+      res.status(200).json({ message: "Carrinho criado com sucesso", data: createdCarrinho });
+    })
+    .catch((error) => {
+      console.error("Erro ao criar carrinho:", error);
+      res.status(500).json({ error: "Erro interno do servidor ao criar carrinho" });
+    });
   } else if (req.method === 'GET') {
     if (req.query.id) {
       const carrinhoId = parseInt(req.query.id); // Supondo que o ID seja um número inteiro
