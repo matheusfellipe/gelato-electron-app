@@ -45,7 +45,7 @@ export const ListAllCremosinho: FC<ListAllCremosinhoProps> = ({
       <main className={styles.contentAllCremosinho}>
         {filterValue.length ? (
           filterValue.map((element) => {
-            const isActive = actualCremosinho.some(
+            const isActive = actualCremosinho?.some(
               (actual) => actual.id === element.id
             );
 
