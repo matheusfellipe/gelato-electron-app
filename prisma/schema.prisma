@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+ provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Carrinho {
+  id        Int      @id @default(autoincrement())
+  entregadorId      Int @unique
+  formaPagamentoId   Int @unique
+  clienteId Int
+  dataVenda DateTime
+  valorTotal Float
+  pago      Boolean
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+  entregador    Entregador @relation(fields: [entregadorId], references: [id])
+  formaPagamento    FormaDePagamento @relation(fields: [formaPagamentoId], references: [id])
+  itens     CarrinhoItem[]
+}
+
+model CarrinhoItem {
+  id          Int      @id @default(autoincrement())
+  quantidade  Int
+  valorTotal  Float
+  carrinho    Carrinho @relation(fields: [carrinhoId], references: [id])
+  carrinhoId  Int
+  produto     Produto  @relation(fields: [produtoId], references: [id])
+  produtoId   Int
+}
+
+model Cliente {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  telefone String
+  cidade   String
+  bairro   String
+  rua      String
+  carrinho Carrinho[]
+}
+
+
+model Produto {
+  id          Int      @id @default(autoincrement())
+  qtd_estoque  Int
+  sabor       String
+  vlr_unitario String
+  itens     CarrinhoItem[]
+}
+
+model Entregador {
+  id            Int      @id @default(autoincrement())
+  nome          String
+  telefone      String
+  carrinho Carrinho?
+}
+
+model FormaDePagamento {
+  id Int      @id @default(autoincrement())
+  descricao          String
+  carrinho Carrinho?
+}
+

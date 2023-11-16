@@ -1,0 +1,84 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 2rem;
+
+  color: #fff;
+  gap: 1.5rem;
+}
+
+.header a {
+  display: flex;
+  height: 100%;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.header a.active {
+  display: flex;
+  background: rgba(0, 0, 0, 0.253);
+  height: 100%;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.header a.active:hover {
+  background: rgba(0, 0, 0, 0.534);
+}
+
+.header a:hover {
+  background: rgba(0, 0, 0, 0.253);
+}
+
+
+
+.containerModal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ContainerButtons {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.Buttons {
+  flex: 1;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.table td {
+  border-bottom: 1px solid #ddd;
+}
+
+.table tr:hover {
+  background-color: #f5f5f5;
+}
