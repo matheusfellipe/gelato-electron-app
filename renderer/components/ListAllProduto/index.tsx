@@ -1,27 +1,27 @@
 import { TextInput } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
-import { ICremosinho } from "../../services/produto.service";
+import { IProduto, IProdutoType, getProdutos } from "../../services/produto.service";
 import styles from "./styles.module.scss";
 import { IconSearch } from "@tabler/icons";
 import { formattedValue } from "../../utils/formatter";
 
 interface ListAllCremosinhoProps {
-  actualCremosinho: ICremosinho[];
-  addCremosinho: (ICremosinho: ICremosinho) => void;
+  actualCremosinho: IProdutoType[];
+  addCremosinho: (ICremosinho: IProdutoType) => void;
 }
 
 export const ListAllCremosinho: FC<ListAllCremosinhoProps> = ({
   actualCremosinho,
   addCremosinho,
 }) => {
-  const [cremosinho, setCremosinho] = useState<ICremosinho[]>([]);
+  const [cremosinho, setCremosinho] = useState<IProdutoType[]>([]);
   const [filter, setFilter] = useState<string>("");
 
   useEffect(() => {
     (async () => {
       try {
-        // const response = await getCremosinho();
-        // setCremosinho(response);
+        const response = await getProdutos();
+        setCremosinho(response);
       } catch (error) {}
     })();
   }, []);
@@ -46,7 +46,7 @@ export const ListAllCremosinho: FC<ListAllCremosinhoProps> = ({
         {filterValue.length ? (
           filterValue.map((element) => {
             const isActive = actualCremosinho.some(
-              (actual) => actual.id_cremosinho === element.id_cremosinho
+              (actual) => actual.id === element.id
             );
 
             return (
@@ -55,7 +55,7 @@ export const ListAllCremosinho: FC<ListAllCremosinhoProps> = ({
                 className={`${styles.itemAllCremosinho} ${
                   isActive ? styles.active : ""
                 }`}
-                key={element.id_cremosinho}
+                key={element.id}
               >
                 <p>{element.sabor}</p>
                 <p>{formattedValue(element.vlr_unitario)}</p>

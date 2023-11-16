@@ -2,12 +2,12 @@
 import { Button, Checkbox, Select } from "@mantine/core";
 
 import { GetServerSidePropsContext } from "next";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Cart } from "../../components/Cart"; 
 
 // import { ListAllCremosinho } from "../../../components/ListAllCremosinho";
-import { ICremosinho } from "../../services/produto.service";
+import { IProduto, IProdutoType, getProdutos } from "../../services/produto.service";
 // import { getEntregador } from "../../../services/entregadorService";
 // import { getFormaDePagamento } from "../../../services/formaDePagamentoService";
 // import { getStatus } from "../../../services/statusService";
@@ -19,8 +19,11 @@ import { useRouter } from "next/router";
 import { showNotification } from "@mantine/notifications";
 import { ListAllCremosinho } from "../../components/ListAllProduto";
 import { Layout } from "../../components/Layout";
+import { IUsuarioType, getUsuarios } from "../../services/cliente.service";
+import { getEntregadores } from "../../services/entregador.service";
+import { getFormasDePagamento } from "../../services/forma-pagamento.service";
 
-export interface ICremosinhoSell extends ICremosinho {
+export interface ICremosinhoSell extends IProdutoType {
   qtd: number;
 }
 
@@ -49,13 +52,13 @@ interface IForm {
   id_usuario: number;
 }
 
-const Dashboard: FC<DashboardProps> = ({
-  allEntregador,
-  allFormaDePagamento,
-  allStatus,
-  allUsuario,
-}) => {
+const Dashboard: FC<DashboardProps> = () => {
   const [cremosinho, setCremosinho] = useState<ICremosinhoSell[]>([]);
+  const [usuario, setUsuario] = useState<ILabeledValue[]>();
+  const [produto, setProduto] = useState<ILabeledValue[]>();
+  const [entregadores, setEntregador] = useState<ILabeledValue[]>();
+  const [formaPagamento, setFormaPagamento] = useState<ILabeledValue[]>();
+
   const router = useRouter();
   const {
     handleSubmit,
@@ -64,7 +67,52 @@ const Dashboard: FC<DashboardProps> = ({
     formState: { errors },
   } = useForm<IForm>({});
 
-  const addCremosinho = (cremosinho: ICremosinho) =>
+  const fetchDados = async () => {
+    try {
+     
+      const result = await Promise.all([
+        
+        getUsuarios(),
+        getProdutos(),
+        getEntregadores(),
+        getFormasDePagamento()
+      ]);
+  
+      const formattedUserResponse = result[0].map((user) => ({
+        label: user.nome,
+        value: String(user.id),
+      }));
+
+      const formattedProdutoResponse = result[1].map((user) => ({
+        label: user.sabor,
+        value: String(user.id),
+      }));
+
+      const formattedEntregadorResponse = result[2].map((user) => ({
+        label: user.nome,
+        value: String(user.id),
+      }));
+
+      const formattedFormaPagamentoResponse = result[3].map((user) => ({
+        label: user.descricao,
+        value: String(user.id),
+      }));
+
+      setUsuario(formattedUserResponse)
+      setProduto(formattedProdutoResponse)
+      setEntregador(formattedEntregadorResponse)
+      setFormaPagamento(formattedFormaPagamentoResponse)
+    } catch (error) {
+      console.error("Erro ao obter produtos:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDados();
+  }, []);
+
+
+  const addCremosinho = (cremosinho: IProduto) =>
     setCremosinho((oldCremosinho) => [
       ...oldCremosinho,
       { ...cremosinho, qtd: 1 },
@@ -73,7 +121,7 @@ const Dashboard: FC<DashboardProps> = ({
   const addById = (id: number) =>
     setCremosinho((oldCremosinho) =>
       oldCremosinho.map((element) =>
-        element.id_cremosinho === id
+        element.id === id
           ? { ...element, qtd: element.qtd + 1 }
           : element
       )
@@ -82,7 +130,7 @@ const Dashboard: FC<DashboardProps> = ({
   const removeById = (id: number) =>
     setCremosinho((oldCremosinho) =>
       oldCremosinho.map((element) =>
-        element.id_cremosinho === id
+        element.id === id
           ? { ...element, qtd: element.qtd - 1 }
           : element
       )
@@ -90,7 +138,7 @@ const Dashboard: FC<DashboardProps> = ({
 
   const deleteById = (id: number) =>
     setCremosinho((oldCremosinho) =>
-      oldCremosinho.filter((element) => element.id_cremosinho !== id)
+      oldCremosinho.filter((element) => element.id !== id)
     );
 
   const total = cremosinho.reduce(
@@ -123,7 +171,6 @@ const Dashboard: FC<DashboardProps> = ({
   const entregador = watch("entregador");
   const idEntregador = watch("id_entregador");
   const idFormaDePagamento = watch("id_forma_pagamento");
-  const idStatus = watch("id_status");
   const idUsuario = watch("id_usuario");
 
   const pago = watch("pago");
@@ -154,7 +201,7 @@ const Dashboard: FC<DashboardProps> = ({
                   <Select
                     label="Entregador"
                     placeholder="Selecione um entregador"
-                    data={allEntregador}
+                    data={entregadores}
                     value={String(idEntregador)}
                     onChange={(e) =>
                       e !== null && setValue("id_entregador", Number(e))
@@ -167,26 +214,20 @@ const Dashboard: FC<DashboardProps> = ({
             <Select
               label="Cliente"
               placeholder="Selecione um cliente"
-              data={allUsuario}
+              data={usuario}
               value={String(idUsuario)}
               onChange={(e) => e !== null && setValue("id_usuario", Number(e))}
             ></Select>
             <Select
               label="Forma de Pagamento"
               placeholder="Selecione uma forma"
-              data={allFormaDePagamento}
+              data={formaPagamento}
               value={String(idFormaDePagamento)}
               onChange={(e) =>
                 e !== null && setValue("id_forma_pagamento", Number(e))
               }
             ></Select>
-            <Select
-              label="Status da Venda"
-              placeholder="Selecione um status"
-              data={allStatus}
-              value={String(idStatus)}
-              onChange={(e) => e !== null && setValue("id_status", Number(e))}
-            ></Select>
+        
 
             <Cart
               actualCremosinho={cremosinho}
@@ -197,7 +238,7 @@ const Dashboard: FC<DashboardProps> = ({
           </div>
           <div>
             <ListAllCremosinho
-              actualCremosinho={cremosinho}
+              actualCremosinho={produto}
               addCremosinho={addCremosinho}
             />
 
@@ -221,10 +262,19 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   try {
     console.log(ctx.query);
 
-   
+    const result = await Promise.all([
+      
+      getUsuarios()
+    ]);
+
+    const formattedUserResponse = result[0].map((user) => ({
+      label: user.nome,
+      value: String(user.id),
+    }));
+
     return {
       props: {
-      
+        allUsuario: formattedUserResponse,
       },
     };
   } catch {

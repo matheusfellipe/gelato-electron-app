@@ -24,19 +24,19 @@ export const Cart: FC<CartProps> = ({
       <p>Resumo</p>
 
       {actualCremosinho?.map((element) => (
-        <div className={styles.contentCard} key={element.id_cremosinho}>
+        <div className={styles.contentCard} key={element.id}>
           <p>{element.sabor}</p>
           <div className={styles.hStack}>
             <ActionIcon
               disabled={element.qtd === 1}
-              onClick={() => removeById(element.id_cremosinho!)}
+              onClick={() => removeById(element.id!)}
             >
               <IconMinus  />
             </ActionIcon>
             <p>{element.qtd}</p>
             <ActionIcon
               disabled={element.qtd === Number(element.qtd_estoque)}
-              onClick={() => addById(element.id_cremosinho!)}
+              onClick={() => addById(element.id!)}
             >
               <IconPlus  />
             </ActionIcon>
@@ -46,7 +46,7 @@ export const Cart: FC<CartProps> = ({
 
           <ActionIcon
             color="red"
-            onClick={() => deleteById(element.id_cremosinho!)}
+            onClick={() => deleteById(element.id!)}
           >
             <IconTrash  />
           </ActionIcon>
