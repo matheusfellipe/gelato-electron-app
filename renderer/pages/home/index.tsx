@@ -151,7 +151,7 @@ const Product: FC<ProductProps> = () => {
     }
   };
 
-  const openDeleteModal = (id: number, name: string) =>
+  const openDeleteModal = (id: number, name: number) =>
     openConfirmModal({
       title: "Excluir Produto",
       centered: true,
