@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Checkbox, TextInput } from "@mantine/core";
 import { useForm } from "react-hook-form";
-import { IProduto} from '../../services/produto.service'
+import { IProduto, IProdutoType} from '../../services/produto.service'
 import styles from "./styles.module.scss";
 import * as yup from "yup";
 import { FC } from "react";
@@ -17,7 +17,7 @@ const schema = yup.object().shape({
 interface AddCremosinhoProps {
   onSubmit: (data: IProduto) => void;
   onClose: () => void;
-  value?: IProduto;
+  value?: IProdutoType;
 }
 
 export const AddProduto: FC<AddCremosinhoProps> = ({
@@ -31,9 +31,10 @@ export const AddProduto: FC<AddCremosinhoProps> = ({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<IProduto>({
+  } = useForm<IProdutoType>({
     resolver: yupResolver(schema),
     defaultValues: {
+      ...(value?.id && { id: value.id }),
       vlr_unitario: value?.vlr_unitario ?? "",
       qtd_estoque: value?.qtd_estoque ?? 0,
       sabor: value?.sabor ?? "",

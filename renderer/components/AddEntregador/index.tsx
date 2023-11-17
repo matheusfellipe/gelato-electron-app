@@ -34,6 +34,7 @@ export const AddEntregador: FC<AddEntregadorProps> = ({
   } = useForm<IEntregadorType>({
     resolver: yupResolver(schema),
     defaultValues: {
+      ...(value?.id && { id: value.id }),
       nome: value?.nome || "",
       telefone: value?.telefone || ""
      
@@ -41,7 +42,7 @@ export const AddEntregador: FC<AddEntregadorProps> = ({
     
   });
 
-
+  const telefoneValue = watch("telefone");
  
 
   return (
@@ -52,12 +53,19 @@ export const AddEntregador: FC<AddEntregadorProps> = ({
         placeholder="Nome"
         error={errors.nome?.message}
       />
-      <TextInput
-        {...register("telefone")}
-        label="Telefone"
-        placeholder="Telefone"
-        error={errors.telefone?.message}
-      />
+       <Input.Wrapper label="Telefone" error={errors.telefone?.message}>
+        <Input
+          {...register("telefone")}
+          component={InputMask as any}
+          mask="(99) 99999-9999"
+          value={telefoneValue}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setValue("telefone", e.target.value.replace(/[^A-Z0-9]+/gi, ""))
+          }
+          invalid={!!errors.telefone?.message}
+          placeholder="Digite o telefone do usuário"
+        />
+      </Input.Wrapper>
 
       <div className={styles.ContainerButtons}>
         <Button className={styles.Buttons} color="blue.6" variant="outline" onClick={onClose}>

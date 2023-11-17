@@ -63,6 +63,7 @@ const EntregadorPage = () => {
         message: 'Entregador cadastrado com sucesso',
       });
       closeAllModals();
+      fetchEntregadores()
     } catch (error) {
       showNotification({
         title: 'Erro',
@@ -108,7 +109,7 @@ const EntregadorPage = () => {
     });
   };
   
-  const deleteEntregador = async (id: number) => {
+  const modalDeleteEntregador = async (id: number) => {
     try {
       await deleteEntregador(id);
       const response = await getEntregadores();
@@ -127,7 +128,7 @@ const EntregadorPage = () => {
       labels: { confirm: "Excluir", cancel: "Cancelar" },
       confirmProps: { color: "red" },
       onCancel: () => console.log("cancel"),
-      onConfirm: () => deleteEntregador(id),
+      onConfirm: () => modalDeleteEntregador(id),
     });
   
 

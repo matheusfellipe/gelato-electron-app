@@ -11,7 +11,7 @@ export default function handler(req, res) {
           res.status(500).json({ error: 'Erro interno do servidor ao buscar entregadores' });
         });
     } else if (req.method === 'POST') {
-      const { nome, telefone } = req.body;
+      const { nome, telefone } = JSON.parse(req.body);
       console.log("🚀 ~ file: entregador.ts:15 ~ handler ~ req.body:", req.body);
   
       prisma.entregador
@@ -49,6 +49,7 @@ export default function handler(req, res) {
         });
     } else if (req.method === 'DELETE') {
       const { id } = req.query;
+      console.log("🚀 ~ file: entregador.ts:52 ~ handler ~ id:", id)
   
       prisma.entregador
         .delete({
