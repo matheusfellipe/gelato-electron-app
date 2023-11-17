@@ -2,8 +2,9 @@ import prisma from "../../data/db";
 
 export default function handler(req, res) {
   if (req.method === 'POST') {
-   const { entregadorId, formaPagamentoId, clienteId, dataVenda, pago, total, itens } = req.body;
-   console.log("🚀 ~ file: venda.ts:6 ~ handler ~ total:", total)
+   const { entregadorId, formaPagamentoId, clienteId, dataVenda, pago, valorTotal, itens } = JSON.parse(req.body);
+   console.log("🚀 ~ file: venda.ts:6 ~ handler ~ pago:", pago)
+
 
   prisma.carrinho
     .create({
@@ -12,12 +13,12 @@ export default function handler(req, res) {
         formaPagamentoId,
         clienteId,
         dataVenda: new Date(),
-        valorTotal:total,
+        valorTotal,
         pago:pago??false,
         itens: {
           create: itens?.map((item) => ({
-            quantidade: item.qtd,
-            valorTotal: item.valor,
+            quantidade: item.quantidade,
+            valorTotal: item.valorTotal,
             produto: {
               connect: { id: item.id }
             }

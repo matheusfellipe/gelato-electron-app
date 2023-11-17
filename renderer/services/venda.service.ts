@@ -4,6 +4,7 @@ import { IFormaDePagamentoType } from "./forma-pagamento.service";
 
 export interface IVenda {
   clienteId: number;
+  formaPagamentoId: number; 
   dataVenda: string;
   pago: boolean;
   valorTotal: number;
@@ -74,14 +75,15 @@ export const postVenda = async (venda: IVenda) => {
 
   const data = {
     clienteId: venda.clienteId,
-    dataVenda: venda.dataVenda,
-    pago: venda.pago,
-    valorTotal: venda.valorTotal,
+    formaPagamentoId: venda.formaPagamentoId,
     itens: venda.itens.map((item) => ({
-      produtoId: item.produtoId,
+      produtoId: item.id,
       quantidade: item.quantidade,
       valorTotal: item.valorTotal,
     })),
+    total: venda.valorTotal,
+    pago:venda.pago
+    
   };
 
   const response = await fetch("/api/venda", {
