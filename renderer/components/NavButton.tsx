@@ -1,5 +1,5 @@
 import { Button } from "@mantine/core";
-import { IconHome, IconIceCream, IconUser } from "@tabler/icons-react";
+import { IconBuildingStore, IconChartPie, IconHome, IconIceCream, IconMoped, IconUser } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -7,13 +7,13 @@ const rotas = [
   {
     label: "Dashboard",
     value: "/dashboard",
-    icon: <IconHome size={14} />,
+    icon: <IconChartPie size={14} />,
   },
 
   {
     label: "Venda",
     value: "/venda",
-    icon: <IconHome size={14} />,
+    icon: <IconBuildingStore size={14} />,
   },
   {
     label: "Produto",
@@ -23,7 +23,7 @@ const rotas = [
   {
     label: "Entregador",
     value: "/entregador",
-    icon: <IconHome size={14} />,
+    icon: <IconMoped size={14} />,
   },
   {
     label: "Cliente",
