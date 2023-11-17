@@ -3,6 +3,7 @@ import prisma from "../../data/db";
 export default function handler(req, res) {
   if (req.method === 'POST') {
    const { entregadorId, formaPagamentoId, clienteId, pago, total, itens } = JSON.parse(req.body);
+ 
 
    
 
@@ -31,8 +32,35 @@ export default function handler(req, res) {
         itens: true,
       },
     })
-    .then((createdCarrinho) => {
-      console.log("Carrinho criado com sucesso:", createdCarrinho);
+    .then(async (createdCarrinho) => {
+      const updatePromises = createdCarrinho.itens.map(async (item) => {
+        const produtoId = item.produtoId;
+        const quantidadeDoCarrinho = item.quantidade;
+      
+        const produto = await prisma.produto.findUnique({
+          where: {
+            id: produtoId,
+          },
+        });
+      
+        if (produto) {
+          const novaQuantidade = produto.qtd_estoque - quantidadeDoCarrinho;
+      
+          await prisma.produto.update({
+            where: {
+              id: produtoId,
+            },
+            data: {
+              qtd_estoque: novaQuantidade < 0 ? 0 : novaQuantidade,
+            },
+          });
+        }
+      });
+      
+     await  Promise.all(updatePromises);
+      
+     
+      
       res.status(200).json({ message: "Carrinho criado com sucesso", data: createdCarrinho });
     })
     .catch((error) => {
