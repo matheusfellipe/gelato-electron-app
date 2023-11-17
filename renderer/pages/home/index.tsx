@@ -18,8 +18,10 @@ import {
 
   IProduto,
   IProdutoType,
+  deleteProduto,
   getProdutos,
   postProduto,
+  putProduto,
  
 } from "../../services/produto.service"
 import { convertMoney } from "../../utils/string";
@@ -79,7 +81,7 @@ const Product: FC<ProductProps> = () => {
     ));
 
   const addProduct = async (data: IProduto) => {
-  console.log("🚀 ~ file: index.tsx:81 ~ addProduct ~ data:", data)
+
   const valor_unitario =  onlyNumbers(data.vlr_unitario) / 100
 
     try {
@@ -104,15 +106,16 @@ const Product: FC<ProductProps> = () => {
     }
   };
 
-  const updateProduct = async (data: IProduto) => {
+  const updateProduct = async (data: IProdutoType) => {
+    const valor_unitario =  onlyNumbers(data.vlr_unitario) / 100
     try {
-      // await putproduto({
-      //   ...data,
-      //   vlr_unitario: onlyNumbers(data.vlr_unitario) / 100,
-      // });
+      await putProduto({
+        ...data,
+        vlr_unitario:valor_unitario.toString(),
+      }, data.id);
       closeAllModals();
-      // const response = await getproduto();
-      // setProduto(response);
+      const response = await getProdutos();
+      setProduto(response);
     } catch (error) {
       console.log(error);
     }
@@ -144,10 +147,10 @@ const Product: FC<ProductProps> = () => {
 
   const deleteProduct = async (id: number) => {
     try {
-      // await deleteproduto(id);
-      // const response = await getproduto();
+      await deleteProduto(id);
+      const response = await getProdutos();
       closeAllModals();
-      // setProduto(response);
+      setProduto(response);
     } catch (error) {
       console.log(error);
     }
