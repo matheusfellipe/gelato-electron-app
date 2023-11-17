@@ -2,7 +2,8 @@ import prisma from "../../data/db";
 
 export default function handler(req, res) {
   if (req.method === 'POST') {
-    const { qtd_estoque, sabor, vlr_unitario } = req.body;
+    const { qtd_estoque, sabor, vlr_unitario } = JSON.parse(req.body);
+    console.log("🚀 ~ file: produto.ts:6 ~ handler ~  JSON.parse(req.body):",  JSON.parse(req.body))
     console.log("🚀 ~ file: produto.ts:6 ~ handler ~ qtd_estoque, sabor, vlr_unitario:", qtd_estoque, sabor, vlr_unitario);
   
     prisma.produto

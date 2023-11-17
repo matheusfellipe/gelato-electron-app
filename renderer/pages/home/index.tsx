@@ -19,6 +19,7 @@ import {
   IProduto,
   IProdutoType,
   getProdutos,
+  postProduto,
  
 } from "../../services/produto.service"
 import { convertMoney } from "../../utils/string";
@@ -78,21 +79,22 @@ const Product: FC<ProductProps> = () => {
     ));
 
   const addProduct = async (data: IProduto) => {
- 
+  console.log("🚀 ~ file: index.tsx:81 ~ addProduct ~ data:", data)
+  const valor_unitario =  onlyNumbers(data.vlr_unitario) / 100
 
     try {
-      // await postproduto({
-      //   ...data,
-      //   inativo: "f",
-      //   vlr_unitario: onlyNumbers(data.vlr_unitario) / 100,
-      // });
+      await postProduto({
+        ...data,
+        vlr_unitario:valor_unitario.toString(),
+      });
+      
+      closeAllModals();
+     
+      fetchProdutos()
       showNotification({
         title: 'Sucesso',
         message: 'produto cadastrado com sucesso',
       })
-      closeAllModals();
-      // const response = await getproduto();
-      // setProduto(response);
     } catch (error) {
       showNotification({
         title: 'Erro',
@@ -116,7 +118,7 @@ const Product: FC<ProductProps> = () => {
     }
   };
 
-  const modalUpdate = (data: IProduto) =>
+  const modalUpdate = (data: IProdutoType) =>
     openModal({
       title: "Editar Produto",
       centered: true,

@@ -33,8 +33,8 @@ export const postProduto = async (produto: IProduto) => {
   console.log("🚀 ~ file: produto.service.ts:28 ~ postProduto ~ produto:", produto);
 
   const data = {
-    preco: produto.vlr_unitario,
-    quantidade: produto.qtd_estoque,
+    vlr_unitario: produto.vlr_unitario,
+    qtd_estoque: produto.qtd_estoque,
     sabor: produto.sabor,
  
   };
@@ -52,8 +52,8 @@ export const putProduto = async (produto: IProdutoType, id: number) => {
   console.log("🚀 ~ file: produto.service.ts:57 ~ putProduto ~ produto:", produto);
 
   const data = {
-    preco: produto.vlr_unitario,
-    quantidade: produto.qtd_estoque,
+    vlr_unitario: produto.vlr_unitario,
+    qtd_estoque: produto.qtd_estoque,
     sabor: produto.sabor,
   };
   console.log("🚀 ~ file: produto.service.ts:66 ~ putProduto ~ data:", data);

@@ -119,7 +119,7 @@ const Product: FC<ProductProps> = () => {
     }
   };
 
-  const modalUpdate = (data: IProduto) =>
+  const modalUpdate = (data: IProdutoType) =>
     openModal({
       title: "Editar Produto",
       centered: true,

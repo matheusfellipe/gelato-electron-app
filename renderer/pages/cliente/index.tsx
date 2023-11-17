@@ -151,7 +151,7 @@ openConfirmModal({
   return (
     <React.Fragment>
       <Head>
-        <title>Gelato Gramado App</title>
+      <title>Cliente CRUD</title>
       </Head>
     <Layout >
       <div className={styles.containerModal}>

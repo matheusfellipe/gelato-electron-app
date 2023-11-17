@@ -136,7 +136,7 @@ const EntregadorPage = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Gelato Gramado App</title>
+      <title>Entregador CRUD</title>
       </Head>
       <Layout>
         <div className={styles.containerModal}>

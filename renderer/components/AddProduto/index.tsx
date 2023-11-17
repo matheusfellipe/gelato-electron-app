@@ -8,10 +8,10 @@ import { FC } from "react";
 import { formattedValue } from "../../utils/formatter";
 
 const schema = yup.object().shape({
-  saborName: yup.string().required("Campo obrigatório"),
-  preco: yup.number().required("Campo obrigatório").min(0, "Mínimo 0"),
-  quantidade: yup.number().required("Campo obrigatório").min(1, "Mínimo 1"),
-  volume: yup.number().required("Campo obrigatório").min(0, "Mínimo 0"), 
+  sabor: yup.string().required("Campo obrigatório"),
+  vlr_unitario: yup.string().required("Campo obrigatório"),
+  qtd_estoque: yup.number().required("Campo obrigatório").min(1, "Mínimo 1"),
+ 
 });
 
 interface AddCremosinhoProps {
@@ -47,8 +47,21 @@ export const AddProduto: FC<AddCremosinhoProps> = ({
     <form onSubmit={handleSubmit(onSubmit)} className={styles.containerModal}>
       <TextInput
         {...register("vlr_unitario")}
-        label="Valor Unitário"
-        placeholder="Valor Unitário"
+        label="Preço"
+        placeholder="Preço"
+        onChange={(e) => {
+          const value = e.target.value.replace(/\D/g, "");
+
+          if (Number(value) > 10000) {
+            setValue("vlr_unitario", formattedValue(9999, true));
+            return;
+          }
+
+          setValue(
+            "vlr_unitario",
+            e.target.value ? formattedValue(value, true) : "R$ 0,00"
+          );
+        }}
         error={errors.vlr_unitario?.message}
       />
       <TextInput
