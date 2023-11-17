@@ -97,14 +97,13 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
         </Head>
         <Layout >
         <main className={styles.containerProduct}>
-          <div className={styles.tableStyle}>
+          <div className={styles.containerModal}>
             <Button
-              component={Link}
-              href="/venda"
+             onClick={()=>push('/venda')}
               color="blue"
               size="md"
             >
-              Adicionar
+              Realizar Venda
             </Button>
             <Table striped highlightOnHover  withColumnBorders className={styles.table}>
               <thead>{ths}</thead>

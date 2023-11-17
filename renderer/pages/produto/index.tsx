@@ -175,7 +175,7 @@ const Product: FC<ProductProps> = () => {
   
 
       <main className={styles.containerProduct}>
-        <div className={styles.tableStyle}>
+        <div className={styles.containerModal}>
           <Button onClick={modalAdd} color="blue" size="md">
             Adicionar
           </Button>

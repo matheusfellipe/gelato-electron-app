@@ -154,7 +154,7 @@ openConfirmModal({
         <title>Gelato Gramado App</title>
       </Head>
     <Layout >
-      <div>
+      <div className={styles.containerModal}>
       <Button onClick={modalAdd} color="blue" size="md">Adcionar Cliente</Button>
       <Table striped highlightOnHover  withColumnBorders  className={styles.table}>
             <thead>{ths}</thead>
