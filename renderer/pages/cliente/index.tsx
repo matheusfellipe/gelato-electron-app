@@ -73,8 +73,7 @@ const ClientePage= ({allUsuario}) => {
         message: 'Usuário cadastrado com sucesso',
       })
       closeAllModals();
-      // const response = await getUsuario();
-      // setUsuario(response);
+      fetchUsuario()
     } catch (error) {
       showNotification({
         title: 'Erro',

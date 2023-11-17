@@ -4,11 +4,10 @@ export default function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const { nome, bairro, cidade, rua, telefone } = JSON.parse(req.body);
+      console.log("🚀 ~ file: cliente.ts:7 ~ handler ~ nome, bairro, cidade, rua, telefone:", nome, bairro, cidade, rua, telefone)
+      
+      
 
-    
-      
-  
-      
         const createdCliente =  prisma.cliente.create({
           data: {
             nome: nome,
@@ -19,17 +18,18 @@ export default function handler(req, res) {
           },
         })  .then((cliente) => {
           if (cliente) {
-            res.status(200).json({ data: cliente });
+            return  res.status(200).json({ data: cliente });
+          
           } else {
-            res.status(404).json({ error: "Cliente não encontrado" });
+            return  res.status(404).json({ error: "Cliente não encontrado" });
           }
         })
         .catch((error) => {
           console.error("Erro ao obter cliente por ID:", error);
-          res.status(500).json({ error: "Internal Server Error" });
+          return   res.status(500).json({ error: "Internal Server Error" });
         });
   
-        res.status(200).json({ message: "Cliente criado com sucesso", data: createdCliente });
+        return  res.status(200).json({ message: "Cliente criado com sucesso", data: createdCliente });
     
       
   
