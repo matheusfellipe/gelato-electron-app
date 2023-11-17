@@ -93,12 +93,10 @@ openModal({
 });
 
 const updateDeliveryMan = async (data: IUsuarioType) => {
-  console.log("🚀 ~ file: index.tsx:100 ~ updateDeliveryMan ~ data:", data)
-  console.log("🚀 ~ file: index.tsx:106 ~ updateDeliveryMan ~ data.id:", data.id)
+
   try {
     await putUsuario({
       ...data,
-      
     },data.id);
     
     closeAllModals();
@@ -110,7 +108,7 @@ const updateDeliveryMan = async (data: IUsuarioType) => {
 };
 
 const modalUpdate = (data: IUsuarioType) => {
-  console.log("🚀 ~ file: index.tsx:115 ~ modalUpdate ~ data:", data)
+  
   
   openModal({
     title: "Editar Entregador",
