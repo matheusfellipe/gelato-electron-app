@@ -3,12 +3,7 @@ import prisma from "../../data/db";
 export default function handler(req, res) {
   if (req.method === 'POST') {
    const { entregadorId, formaPagamentoId, clienteId, pago, total, itens } = JSON.parse(req.body);
-   console.log("🚀 ~ file: venda.ts:6 ~ handler ~ itens:", itens)
-   console.log("🚀 ~ file: venda.ts:6 ~ handler ~ valorTotal:", total)
-   console.log("🚀 ~ file: venda.ts:6 ~ handler ~ pago:", pago)
-   console.log("🚀 ~ file: venda.ts:6 ~ handler ~ clienteId:", clienteId)
-   console.log("🚀 ~ file: venda.ts:6 ~ handler ~ formaPagamentoId:", formaPagamentoId)
-   console.log("🚀 ~ file: venda.ts:6 ~ handler ~ entregadorId:", entregadorId)
+
    
 
 
