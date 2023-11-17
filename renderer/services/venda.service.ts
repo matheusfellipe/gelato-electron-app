@@ -108,6 +108,22 @@ export const getVenda = async () => {
   return data as unknown as IVendaView[];
 };
 
+export const getVendaById = async (id:number) => {
+  
+
+  const response = await fetch(`/api/venda?id=${id}`, {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Erro ao obter venda: ${response.statusText}`);
+  }
+
+  const { data } = await response.json();
+  
+  return data as unknown as IVendaView[];
+};
+
 export const putVenda = async (id: number, venda: IVenda) => {
   console.log("🚀 ~ file: venda.service.ts:36 ~ putVenda ~ id:", id);
   console.log("🚀 ~ file: venda.service.ts:36 ~ putVenda ~ venda:", venda);

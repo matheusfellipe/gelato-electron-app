@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { ICremosinhoSell } from "../../pages/venda";
 import { ActionIcon } from "@mantine/core";
 
@@ -6,6 +6,7 @@ import { formattedValue } from "../../utils/formatter";
 import styles from "./styles.module.scss";
 import { IconMinus, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useRouter } from "next/router";
+import { getVenda, getVendaById } from "../../services/venda.service";
 
 interface CartProps {
   actualCremosinho: ICremosinhoSell[];
@@ -20,8 +21,23 @@ export const Cart: FC<CartProps> = ({
   removeById,
   deleteById,
 }) => {
+  const [data,setData] = useState([])
   const {query} = useRouter()
-  console.log("🚀 ~ file: index.tsx:24 ~ query:", query)
+  
+  
+  
+  useEffect(()=>{
+    if(query.id){
+      (async () => {
+         const response = await getVendaById(Number(query.id))
+        setData(response)
+      })()
+     
+    }
+  },[])
+  
+  console.log("🚀 ~ file: index.tsx:39 ~ data:", data)
+  console.log("🚀 ~ file: index.tsx:40 ~ query:", query)
   return (
     <div className={styles.containerCard}>
       <p>Resumo</p>
