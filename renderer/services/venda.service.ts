@@ -4,10 +4,11 @@ import { IFormaDePagamentoType } from "./forma-pagamento.service";
 
 export interface IVenda {
   clienteId: number;
-  formaPagamentoId: number; 
+  formaPagamentoId: number;
+  entregadorId:number; 
   dataVenda: string;
   pago: boolean;
-  valorTotal: number;
+  total: number;
   itens: IVendaItem[];
 }
 
@@ -31,43 +32,13 @@ export interface IVendaView {
 
 export interface IVendaItem {
   id: number;
-  quantidade: number;
-  valorTotal: number;
-  carrinhoId: number;
-  produtoId: number;
-  produto: {
-    id: number;
-    qtd_estoque: number;
-    sabor: string;
-    vlr_unitario: string;
-  };
-  carrinho: {
-    id: number;
-    entregadorId: number;
-    formaPagamentoId: number;
-    clienteId: number;
-    dataVenda: string;
-    valorTotal: number;
-    pago: boolean;
-    cliente: {
-      id: number;
-      nome: string;
-      telefone: string;
-      cidade: string;
-      bairro: string;
-      rua: string;
-    };
-    entregador: {
-      id: number;
-      nome: string;
-      telefone: string;
-    };
-    formaPagamento: {
-      id: number;
-      descricao: string;
-    };
-  };
+  qtd: number;
+  qtd_estoque: number;
+  sabor: string;
+  valor: number;
+  vlr_unitario: string;
 }
+
 
 
 export const postVenda = async (venda: IVenda) => {
@@ -76,12 +47,13 @@ export const postVenda = async (venda: IVenda) => {
   const data = {
     clienteId: venda.clienteId,
     formaPagamentoId: venda.formaPagamentoId,
+    entregadorId:venda.entregadorId,
     itens: venda.itens.map((item) => ({
       produtoId: item.id,
-      quantidade: item.quantidade,
-      valorTotal: item.valorTotal,
+      quantidade: item.qtd,
+      valorTotal: item.valor,
     })),
-    total: venda.valorTotal,
+    total: venda.total,
     pago:venda.pago
     
   };
@@ -134,11 +106,11 @@ export const putVenda = async (id: number, venda: IVenda) => {
     clienteId: venda.clienteId,
     dataVenda: venda.dataVenda,
     pago: venda.pago,
-    valorTotal: venda.valorTotal,
+    valorTotal: venda.total,
     itens: venda.itens.map((item) => ({
-      produtoId: item.produtoId,
-      quantidade: item.quantidade,
-      valorTotal: item.valorTotal,
+      produtoId: item.id,
+      quantidade: item.qtd,
+      valorTotal: item.valor,
     })),
   };
 
