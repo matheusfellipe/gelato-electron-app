@@ -74,7 +74,7 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
       
         <td className={styles.tableFlex}>
           <ActionIcon
-            onClick={() => push(`/dashboard/edit/${element.id}`)}
+            onClick={() => push(`/venda?id=${element.id}`)}
             size={20}
             color="blue"
           >

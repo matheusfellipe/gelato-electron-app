@@ -46,13 +46,10 @@ export default function handler(req, res) {
             id: carrinhoId,
           },
           include: {
-            itens: {
-              include: {
-                produto: true,
-                carrinho:true
-                
-              },
-            },
+            cliente:true,
+            entregador:true,
+            formaPagamento:true,
+            itens:true
           },
         })
         .then((carrinho) => {

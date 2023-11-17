@@ -5,6 +5,7 @@ import { ActionIcon } from "@mantine/core";
 import { formattedValue } from "../../utils/formatter";
 import styles from "./styles.module.scss";
 import { IconMinus, IconPlus, IconTrash } from "@tabler/icons-react";
+import { useRouter } from "next/router";
 
 interface CartProps {
   actualCremosinho: ICremosinhoSell[];
@@ -19,6 +20,8 @@ export const Cart: FC<CartProps> = ({
   removeById,
   deleteById,
 }) => {
+  const {query} = useRouter()
+  console.log("🚀 ~ file: index.tsx:24 ~ query:", query)
   return (
     <div className={styles.containerCard}>
       <p>Resumo</p>
